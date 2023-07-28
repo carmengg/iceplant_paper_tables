@@ -1,0 +1,152 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+gp information:
+
+https://towardsdatascience.com/create-flawless-tables-from-your-dataframe-ready-for-publication-7e3fe2d63a52
+https://gt.rstudio.com/articles/intro-creating-gt-tables.html
+
+```{r}
+library(tidyverse)  # include packages 
+library(gt)
+
+```
+
+
+```{r}
+classes <- c("Other vegetation","Iceplant","Low NDVI surfaces", "Water")
+c1 <- c(170, 51, 15,0)
+c2 <- c(1, 137, 1, 0)
+c3 <- c(20, 11, 85, 3)
+c4 <- c(9, 0, 9, 82)
+
+c5 <- c(200, 199, 110,85)
+
+df <- data.frame(classes, c1, c2, c3, c4,c5)
+print(df)
+```
+
+
+```{r}
+
+# CONFUSION MATRIX TABLE
+
+df %>%
+  gt(rowname_col = "classes") %>% 
+#gt() %>% 
+  cols_label(
+    c1 = md("Other vegetation"),
+    c2 = md("Iceplant"),
+    c3 = md("Low NDVI surfaces"),
+    c4 = md("Water"),
+    c5 = md("Total")) %>%  
+  summary_rows(
+    columns = c("c1", "c2", "c3", "c4","c5"),
+    fns = list(Total = ~sum(.))) %>% 
+  tab_row_group(label = "Map class",
+                rows = 1:4) %>% 
+    tab_spanner(
+    label = "Reference class",
+    columns = c("c1","c2","c3","c4")) %>% 
+  tab_header(
+    title = "Table X",
+    subtitle = "Confusion matrix for the assessment sample classification (ground validated points)"
+  ) %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title")
+  )
+ ) 
+     
+```
+
+
+```{r}
+### accuracy table
+user <- c(85, 68.84, 77.27, 96.47)
+user_conf <- c(4.94, 6.42, 7.83, 3.93)
+prod <- c(80.82, 66.84, 88.38, 86.63)
+prod_conf <- c(6.87, 33.33, 3.42, 5.61)
+
+df2 <- data.frame(classes, user, user_conf, prod, prod_conf)
+print(df2)
+```
+
+
+```{r}
+df2 %>% 
+  gt() %>% 
+  cols_label(
+    classes = "Map class",
+    user = md("User acc. (%)"),
+    user_conf = md("User acc. 95% conf. interval (%)"),
+    prod = md("Prod. acc (%)"),
+    prod_conf = md("Prod acc. 95% conf. interval (%)")) %>%  
+  tab_header(
+    title = "Table X",
+    subtitle = "Assessment metrics per class of the 2020 iceplant location map on the Santa Barbara County Coast"
+  ) %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title"),
+   cells_title(groups = "subtitle")   
+  )
+ ) %>% 
+   tab_source_note(
+    source_note = md("Overal accuracy = 85.19% ± 3.6% (95% confidence interval)")
+  )
+```
+
+
+
+```{r}
+times <- read.csv('modelAE5_FP_2020_filter_clip_processing_results_2020.csv')
+times <- times[-c(4,5),]  # remove those with no vegetation
+times
+```
+
+```{r}
+labels <- c('Avg. per scene', 'Total')
+pre <- c(mean(times$pre_times), sum(times$pre))
+class <- c(mean(times$class_times), sum(times$class))
+post <- c(mean(times$post_times), sum(times$post))
+pix_n <- c(mean(times$processed_pix), sum(times$processed_pix))
+
+data.frame(labels, pre,class, post, pix_n) %>% 
+  gt(rowname_col = "labels")%>% 
+  cols_label(
+    pre = md("Pre-processing (s)"),
+    class = md("Classification (s)"),
+    post = md("Post-processing (s)"),
+    pix_n = md("Pixels (n)"))%>% 
+  tab_header(
+    title = "Table X",
+    subtitle = "Processing times for the three stages of iceplant classification in individual NAIP scenes and number of pixels analyzed after masking to coastal zone."
+  ) %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title"),
+   cells_title(groups = "subtitle")   
+  )
+ )%>% 
+   tab_source_note(
+    source_note = md("Total processing time = XXX (min)")
+  )
+```

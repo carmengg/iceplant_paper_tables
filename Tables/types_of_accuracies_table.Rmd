@@ -1,0 +1,60 @@
+---
+title: "types_of_accuracies_table"
+author: "CGG"
+date: "2023-05-15"
+output: html_document
+---
+
+
+```{r}
+library(tidyverse)  # include packages 
+library(gt)
+```
+
+
+```{r}
+#Producer's Accuracy", "User's Accuracy"
+Name <- c("Overall Accuracy", "   Iceplant","   Vegetation", "   Iceplant", "   Vegetation")
+Interpretation <- c(
+  "Total fraction of points correctly classified",
+  "Fraction of  iceplant points correctly classified",
+  "Fraction of other vegetation points correctly classified",  
+  "From the points classfied as iceplant, the fraction that were iceplant",
+  "From the points classfied as other vegetation, the fraction that were other vegetation")
+Formula <- c(
+  "(TP + TN)/(P + N)",
+  "TP/P",
+  "TN/N",
+  "TP/(TP + FP)",
+  "TN/(TN + FN)"
+)
+
+df <- data.frame(Name, Formula, Interpretation)
+```
+
+```{r}
+df %>% 
+  gt()%>% 
+  tab_row_group(
+     label = "User's Accuracy",
+     rows = 4:5) %>% 
+    tab_row_group(
+     label = "Producer's Accuracy",
+     rows = 2:3) %>% 
+  tab_header(
+    title = "Table X",
+    subtitle = "Accuracy metrics using iceplant as positive class and other vegetation as negative class. P and N stand for the number of iceplant and other vegetation points in the test set, respectively. TP (true positive) and TN (true negative) stand for the number of iceplant and other vegetation points correctly classified by a model, while FN (false negative) and FP (false positive) are, respectively, the number of iceplant and other vegetation points incorrectly classified."
+  )  %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title"),
+   cells_title(groups = "subtitle")  
+  )
+ ) 
+
+```

@@ -1,0 +1,273 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+gp information:
+
+https://towardsdatascience.com/create-flawless-tables-from-your-dataframe-ready-for-publication-7e3fe2d63a52
+https://gt.rstudio.com/articles/intro-creating-gt-tables.html
+
+```{r}
+library(tidyverse)  # include packages 
+library(gt)
+
+```
+
+
+
+```{r}
+Dataset <- c('Train','Test','Total (n)')
+```
+
+
+```{r}
+# TABLE WITH COUNTS FOR INITIAL TRAINING SET: COMPLETE DATASET
+
+all_ice <- c(770, 330, 1100)
+all_veg <- c(980, 420, 1400)
+all_total <- c(1750, 750, 2500)
+df_all <- data.frame(Dataset, all_ice, all_veg, all_total)
+
+df_all %>%
+  gt(rowname_col = "name") %>% 
+  cols_label(
+    all_ice = md("Iceplant (n)"),
+    all_veg = md("Other vegetation (n)"),
+    all_total = md("Total (n)")) %>% 
+  tab_header(
+    title = "Table X",
+    subtitle = "Number of points per class and dataset."
+  ) %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title")
+  )
+ ) 
+     
+```
+
+
+
+```{r}
+rows <- c('S1','S2, S3, S4, S5', 'All scenes')
+col_names <- c('Scene(s)',
+               'train_veg','train_ice', 'total_train', 
+               'test_veg', 'test_ice', 'total_test',
+               'all_veg', 'all_ice', 'total_all')
+r1 <- c(140, 210, 350, 60, 90, 150, 200, 300, 500)
+r2 <- c(210, 140, 350, 90, 60, 150, 300, 200, 500)
+r3 <- c(980, 770, 1750, 420, 330, 750, 1400, 1100, 2500)
+df <- data.frame(rows, rbind(r1, r2, r3))
+colnames(df) <- col_names
+
+df %>%
+  gt()  %>% 
+  cols_label(
+    train_veg = md("veg. (n)"),
+    train_ice = md("icep. (n)"),
+    total_train = md("total (n)"),
+    test_veg = md("veg. (n)"),
+    test_ice = md("icep. (n)"),
+    total_test = md("total (n)"),
+    all_veg = md("veg. (n)"),
+    all_ice = md("icep. (n)"),
+    total_all = md("total (n)"),) %>% 
+  tab_header(
+    title = "Table X",
+    subtitle = "Number of other vegetation and iceplant points sampled in each scene and dataset."
+  ) %>% 
+  tab_spanner(
+    label = "Training Set",
+    columns = c('train_veg', 'train_ice', 'total_train')
+  )  %>% 
+  tab_spanner(
+    label = "Test Set",
+    columns = c('test_veg', 'test_ice', 'total_test')
+  ) %>% 
+    tab_spanner(
+    label = "Complete Dataset",
+    columns = c('all_veg', 'all_ice', 'total_all')
+  )  %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title"),
+   cells_title(groups = "subtitle")   
+  )
+ ) 
+```
+
+
+```{r}
+# TABLE WITH COUNTS FOR INITIAL TRAINING SET: scenes S2-S5
+
+s2s5_ice <- c(140, 60, 200)
+s2s5_veg <- c(210, 90, 300)
+s2s5_total <- c(350, 150, 500)
+df_s2s5 <- data.frame(Dataset, s2s5_ice, s2s5_veg, s2s5_total)
+
+df_s2s5 %>%
+  gt() %>% 
+  cols_label(
+    s2s5_ice = md("Iceplant (n)"),
+    s2s5_veg = md("Other vegetation (n)"),
+    s2s5_total = md("Total (n)")) %>% 
+  tab_header(
+    title = "Table X",
+    subtitle = "Number of points per class and dataset from scenes S2-S5."
+  ) %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title")
+  )
+ ) 
+     
+```
+
+
+
+```{r}
+# TABLE WITH COUNTS FOR INITIAL TRAINING SET: scene S1
+
+s1_ice <- c(210, 90, 300)
+s1_veg <- c(140, 60, 200)
+s1_total <- c(350, 150, 500)
+df_s1 <- data.frame(Dataset, s1_ice, s1_veg, s1_total)
+
+df_s1 %>%
+  gt() %>% 
+  cols_label(
+    s1_ice = md("Iceplant (n)"),
+    s1_veg = md("Other vegetation (n)"),
+    s1_total = md("Total (n)")) %>% 
+  tab_header(
+    title = "Table X",
+    subtitle = "Number of points per class and dataset from scene S1."
+  ) %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title")
+  )
+ ) 
+     
+```
+
+
+```{r}
+metrics <- read.csv('model_metrics.csv')
+```
+
+
+```{r}
+classes <- c("TNn","Iceplant","Low NDVI surfaces", "Water")
+c1 <- c(170, 51, 15,0)
+c2 <- c(1, 137, 1, 0)
+c3 <- c(20, 11, 85, 3)
+c4 <- c(9, 0, 9, 82)
+
+c5 <- c(200, 199, 110,85)
+
+df <- data.frame(classes, c1, c2, c3, c4,c5)
+print(df)
+```
+
+
+```{r}
+
+# CONFUSION MATRIX TABLE
+
+df %>%
+  gt(rowname_col = "classes") %>% 
+#gt() %>% 
+  cols_label(
+    c1 = md("Other vegetation"),
+    c2 = md("Iceplant"),
+    c3 = md("Low NDVI surfaces"),
+    c4 = md("Water"),
+    c5 = md("Total")) %>%  
+  summary_rows(
+    columns = c("c1", "c2", "c3", "c4","c5"),
+    fns = list(Total = ~sum(.))) %>% 
+  tab_row_group(label = "Map class",
+                rows = 1:4) %>% 
+    tab_spanner(
+    label = "Reference class",
+    columns = c("c1","c2","c3","c4")) %>% 
+  tab_header(
+    title = "Table X",
+    subtitle = "Confusion matrix for the assessment sample classification (ground validated points)"
+  ) %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title")
+  )
+ ) 
+     
+```
+
+
+```{r}
+### accuracy table
+user <- c(85, 68.84, 77.27, 96.47)
+user_conf <- c(4.96, 6.45, 7.8, 3.94)
+prod <- c(80.82, 66.84, 88.38, 86.63)
+prod_conf <- c(00, 00, 00, 00)
+
+df2 <- data.frame(classes, user, user_conf, prod, prod_conf)
+print(df2)
+```
+
+
+```{r}
+df2 %>% 
+  gt() %>% 
+  cols_label(
+    classes = "Map class",
+    user = md("User acc. (%)"),
+    user_conf = md("User acc. 95% conf. interval (%)"),
+    prod = md("Prod. acc (%)"),
+    prod_conf = md("Prod acc. 95% conf. interval (%)")) %>%  
+  tab_header(
+    title = " ",
+    subtitle = "Assessment metrics per class of the 2020 iceplant location map on the Santa Barbara County Coast"
+  ) %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title"),
+   cells_title(groups = "subtitle")   
+  )
+ ) %>% 
+   tab_source_note(
+    source_note = md("Overal accuracy = 85.19% ± 0.036% (95% confidence interval)")
+  )
+```

@@ -1,0 +1,109 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+gp information:
+
+https://towardsdatascience.com/create-flawless-tables-from-your-dataframe-ready-for-publication-7e3fe2d63a52
+https://gt.rstudio.com/articles/intro-creating-gt-tables.html
+
+```{r}
+library(tidyverse)  # include packages 
+library(gt)
+library(dplyr)
+```
+
+
+```{r}
+train <- read.csv('salt_p30_train.csv')
+test <- read.csv('salt_p30_test.csv')
+
+train$aoi <- factor(train$aoi) %>% 
+    factor(levels = c("point_conception","gaviota","capitan", "campus_lagoon","carpinteria"))
+
+test$aoi <- factor(test$aoi) %>% 
+    factor(levels = c("point_conception","gaviota","capitan", "campus_lagoon","carpinteria"))
+
+```
+
+```{r}
+ice_train <- train %>% group_by(aoi, iceplant) %>% 
+    summarise( count = n()) %>% 
+    filter( iceplant == 1)
+
+veg_train <- train %>% group_by(aoi, iceplant) %>% 
+    summarise( count = n()) %>% 
+    filter( iceplant == 0)
+
+ice_test <- test %>% group_by(aoi, iceplant) %>% 
+    summarise( count = n()) %>% 
+    filter( iceplant == 1)
+
+veg_test <- test %>% group_by(aoi, iceplant) %>% 
+    summarise( count = n()) %>% 
+    filter( iceplant == 0)
+```
+
+
+```{r}
+scenes <- c('S1', 'S2', 'S3', 'S4', 'S5')
+df <- data.frame(scenes, 
+           veg_train$count, ice_train$count, veg_train$count + ice_train$count,
+           veg_test$count, ice_test$count, ice_test$count + veg_test$count,
+           veg_train$count + veg_test$count, 
+            ice_train$count + ice_test$count,
+           veg_train$count + veg_test$count +  ice_train$count + ice_test$count
+           )
+colnames(df) <- c('Scene',
+                  'train_veg','train_ice', 'total_train', 
+                  'test_veg', 'test_ice', 'total_test',
+                  'all_veg', 'all_ice', 'total_all')
+
+
+df <- df%>% bind_rows(summarise(., across(where(is.numeric), sum),
+                   across(where(is.character), ~'All Scenes')))
+```
+
+```{r}
+df %>%
+  gt(rowname_col = "Scene")  %>% 
+  cols_label(
+    train_veg = md("veg. (n)"),
+    train_ice = md("icep. (n)"),
+    total_train = md("total (n)"),
+    test_veg = md("veg. (n)"),
+    test_ice = md("icep. (n)"),
+    total_test = md("total (n)"),
+    all_veg = md("veg. (n)"),
+    all_ice = md("icep. (n)"),
+    total_all = md("total (n)"),) %>% 
+  tab_header(
+    title = "Table X",
+    subtitle = "Number of other vegetation and iceplant points sampled for the final dataset, divided by scene and dataset (train and test)."
+  ) %>% 
+  tab_spanner(
+    label = "Training Set",
+    columns = c('train_veg', 'train_ice', 'total_train')
+  )  %>% 
+  tab_spanner(
+    label = "Test Set",
+    columns = c('test_veg', 'test_ice', 'total_test')
+  ) %>% 
+    tab_spanner(
+    label = "Complete Dataset",
+    columns = c('all_veg', 'all_ice', 'total_all')
+  )  %>%
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title"),
+   cells_title(groups = "subtitle")   
+  )
+ ) 
+```
+

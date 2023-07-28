@@ -1,0 +1,190 @@
+---
+title: "graphs_model_development_accuracies"
+author: "CGG"
+date: "2023-05-11"
+output: html_document
+---
+
+```{r}
+library(tidyverse)  # include packages 
+library(gt)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+
+library(patchwork)
+```
+
+```{r}
+accs <- read_csv('accuracies_feature_experiments.csv')
+accs
+```
+
+```{r}
+add_window_size <- function(df){
+  df$window_size = str_split_i(df$features, "_", -1) %>%  as.numeric()
+  return(df)
+}
+
+avg_ent <- accs[5:17,]
+avg_ent$type = 'avg_ent'
+avg_ent <- add_window_size(avg_ent)
+
+glcm <- accs[18:30,]
+glcm$type = 'glcm'
+glcm <- add_window_size(glcm)
+
+entr <- accs[31:43,]
+entr$type = 'entr'
+entr <- add_window_size(entr)
+
+avg <- accs[44:56,]
+avg$type = "avg"
+avg <- add_window_size(avg)
+
+# ------------------------------------------
+  
+all <- bind_rows(avg, entr, avg_ent, glcm)
+all$type <- factor(all$type, 
+                      levels = c("glcm","avg","entr","avg_ent"))
+
+```
+
+```{r}
+avg %>% 
+  ggplot( aes(x=window_size, y=acc)) +
+    geom_line( color="grey") +
+    geom_point(shape=21, color="black", fill="#69b3a2", size=3) +
+  labs( y="Overall accuracy (%)", 
+        x="Length of window side (pixels)")+
+  scale_x_continuous(
+    breaks=seq(5,25,4),
+    #labels=c("5x5", "9x9","13x13","17x17","21x21","25x25")
+    ) +
+  theme_light() +   
+    ggtitle("Overal Accuracy")
+```
+
+
+```{r}
+accuracy_graph <- function(which_acc, y_label, title){
+  all %>% 
+  ggplot( aes(x = window_size, 
+              y = which_acc, 
+              color = type,
+              shape = type)) +
+    geom_line( color = "grey") +
+    geom_point(size=4) +
+  labs( y = y_label, 
+        x = "Window side length (pixels)",
+        title = title,
+        subtitle = subtitle)+
+  # scale_shape_discrete(
+  #   name = "Texture Features Added",
+  #   labels = c("GLCM", "Average", "Entropy", "Average and Entropy")
+  # )+
+ # scale_shape_manual(values=c(15, 16, 15, 8))+
+  guides(color="none", shape = "none")+
+  scale_x_continuous(
+    breaks=seq(5,25,4))+
+  scale_color_brewer(palette = "Set1")+
+  theme_light() +
+  theme(legend.position = "bottom")
+}
+
+
+```
+
+```{r}
+# ------------------------------------------
+#title =  "Fig. X Overall Accuracies for Texture Features Across Window Sizes"
+title = "(e)"
+subtitle =  ""
+y_label = "Overall accuracy (%)"
+
+OA <-   all %>% 
+  ggplot( aes(x = window_size, 
+              y = acc, 
+              color = type,
+              shape = type)) +
+    geom_line( color = "grey") +
+    geom_point(size=4) +
+  labs( y = y_label, 
+        #x = "Length of window side (pixels)",
+        x = "Window side length (pixels)",
+        title = title,
+        subtitle = subtitle)+
+  scale_shape_discrete(
+    name = "Texture Features Added",
+    labels = c("GLCM", "Average", "Entropy", "Average and Entropy")
+  )+
+ # scale_shape_manual(values=c(15, 16, 15, 8))+
+  guides(color="none")+
+  scale_x_continuous(
+    breaks=seq(5,25,4))+
+  scale_color_brewer(palette = "Set1")+
+  theme_light() +
+  theme(legend.position = "bottom")
+
+OA
+```
+
+```{r}
+# ------------------------------------------
+title =  "Fig. X Iceplant Producer's Accuracies for Texture Features Across Window Sizes"
+subtitle =  ""
+y_label = "Producer's accuracy (%)"
+ice_PA <- accuracy_graph(all$prod_acc_P, y_label, title)
+
+# ------------------------------------------
+title =  "Fig. X Other Vegetation Producer's Accuracies for Texture Features Across Window Sizes"
+subtitle =  ""
+y_label = "Producer's accuracy (%)"
+veg_PA <- accuracy_graph(all$prod_acc_N, y_label, title)
+
+# ------------------------------------------
+title =  "Fig. X Iceplant User's Accuracies for Texture Features Across Window Sizes"
+subtitle =  ""
+y_label = "User's accuracy (%)"
+ice_UA <- accuracy_graph(all$user_acc_P, y_label, title)
+
+# ------------------------------------------
+title =  "Fig. X Other Vegetation User's Accuracies for Texture Features Across Window Sizes"
+subtitle =  ""
+y_label = "User's accuracy (%)"
+veg_UA <- accuracy_graph(all$user_acc_N, y_label, title)
+
+
+(ice_PA + veg_PA)/ (ice_UA + veg_UA)/OA
+```
+
+
+
+```{r}
+# ------------------------------------------
+title =  "(a)"
+subtitle =  ""
+y_label = "Iceplant producer's accuracy (%)"
+ice_PA <- accuracy_graph(all$prod_acc_P, y_label, title)
+
+# ------------------------------------------
+title =  "(b)"
+subtitle =  ""
+y_label = "Other vegetation producer's accuracy (%)"
+veg_PA <- accuracy_graph(all$prod_acc_N, y_label, title)
+
+# ------------------------------------------
+title =  "(c)"
+subtitle =  ""
+y_label = "Iceplant user's accuracy (%)"
+ice_UA <- accuracy_graph(all$user_acc_P, y_label, title)
+
+# ------------------------------------------
+title =  "(d)"
+subtitle =  ""
+y_label = "Other vegetation user's accuracy (%)"
+veg_UA <- accuracy_graph(all$user_acc_N, y_label, title)
+
+
+(ice_PA + veg_PA)/ (ice_UA + veg_UA)/OA
+```

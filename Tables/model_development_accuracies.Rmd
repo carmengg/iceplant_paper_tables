@@ -1,0 +1,129 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+gp information:
+
+https://towardsdatascience.com/create-flawless-tables-from-your-dataframe-ready-for-publication-7e3fe2d63a52
+https://gt.rstudio.com/articles/intro-creating-gt-tables.html
+
+```{r}
+library(tidyverse)  # include packages 
+library(gt)
+
+accs <- read_csv('accuracies_feature_experiments.csv')
+accs
+```
+
+
+```{r}
+
+# CONFUSION MATRIX TABLE
+accuracies_table <- function(df, Features_label, subtitle){
+df %>%
+  gt()%>% 
+  cols_label(
+    Features = md(Features_label),
+    acc = md("Overall Accuracy (%)"),
+    prod_acc_P = md("Iceplant"),
+    prod_acc_N = md("Other Vegetation"),
+    user_acc_P = md("Iceplant"),
+    user_acc_N = md("Other Vegetation")) %>% 
+  tab_spanner(
+    label = "Counts per class (n)",
+    columns = c("TP","TN","FP","FN")) %>% 
+  tab_spanner(
+    label = "Producer's Accuracy (%)",
+    columns = c("prod_acc_P","prod_acc_N")) %>% 
+  tab_spanner(
+    label = "User's Accuracy (%)",
+    columns = c("user_acc_P","user_acc_N")) %>% 
+  tab_header(
+    title = "Table X",
+    subtitle = subtitle
+  )  %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title"),
+   cells_title(groups = "subtitle")  
+  )
+ ) 
+}
+```
+
+
+```{r}
+table_order <- c("Features","acc","prod_acc_P","prod_acc_N","user_acc_P","user_acc_N","TP","TN","FP","FN")
+
+spectral_df <- accs[1:4,1:9]
+spectral_df$Features <- c('spectral','spectral, date', 'spectral, NDVI', 'spectral, date, NDVI')
+spectral_df <- spectral_df[,table_order]
+spectral_df
+```
+
+```{r}
+Features_label = 'Features'
+subtitle =  "Accuracies and classification results into iceplant (positive class) an other vegetation (negative class) from models with different combinations of spectral, date and NDVI features."
+
+accuracies_table(spectral_df, Features_label, subtitle)
+```
+
+```{r}
+
+###### TEXTURE TABLES 
+
+window_sizes <- c('3x3','5x5', '7x7', '9x9', '11x11','13x13','15x15','17x17', '19x19','21x21','23x23','25x25','27x27')
+Features_label = 'Window size (pixels)'
+
+# glcm table
+glcm_df <- accs[18:30,1:9]
+glcm_df$Features <- window_sizes
+glcm_df <- glcm_df[, table_order]
+
+subtitle =  "Accuracies and classification results into iceplant (positive class) an other vegetation (negative class) from models using spectral, NDVI, and date features together with contrast and correlation features derived from GLCM matrices calculated at horizontal and vertical offset of 1 across multiple window sizes. "
+accuracies_table(glcm_df, Features_label, subtitle)
+```
+
+
+
+
+```{r}
+# avg table
+avg_df <- accs[44:56,1:9]
+avg_df$Features <- window_sizes
+avg_df <- avg_df[, table_order]
+
+subtitle =  "Accuracies and classification results into iceplant (positive class) an other vegetation (negative class) from models using spectral, NDVI, and date features together with average values of each spectral band and NDVI within a window, calculated across multiple window sizes. "
+accuracies_table(avg_df, Features_label, subtitle)
+
+```
+
+
+```{r}
+# ent table
+entr_df <- accs[31:43,1:9]
+entr_df$Features <- window_sizes
+entr_df <- entr_df[, table_order]
+
+subtitle =  "Accuracies and classification results into iceplant (positive class) an other vegetation (negative class) from models using spectral, NDVI, and date features together with entropy values of each spectral band and NDVI within a window, calculated across multiple window sizes. "
+accuracies_table(entr_df, Features_label, subtitle)
+
+```
+
+
+```{r}
+# avg_ent table
+avg_entr_df <- accs[5:17,1:9]
+avg_entr_df$Features <- window_sizes
+avg_entr_df <- avg_entr_df[, table_order]
+
+subtitle =  "Accuracies and classification results into iceplant (positive class) an other vegetation (negative class) from models using spectral, NDVI, and date features together with average and entropy values of each spectral band and NDVI within a window, calculated across multiple window sizes. "
+accuracies_table(avg_entr_df, Features_label, subtitle)
+
+```

@@ -1,0 +1,49 @@
+---
+title: "iceplant_coverage_table"
+author: "CGG"
+date: "2023-06-13"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(gt)
+```
+
+```{r}
+classes <- c("Other vegetation","Iceplant","Low NDVI surfaces", "Water")
+perc_area <- c(30.08, 1.51, 34.56, 33.84)
+conf_intv_perc_area <- c(2.91, 0.76, 3.54, 2.5)
+km2_area <- c(3340.7, 168.3, 3838.6, 3757.8)
+conf_intv_km2 <- c(324, 85, 393, 278)
+
+df <- data.frame(classes, perc_area, conf_intv_perc_area, km2_area, conf_intv_km2)
+```
+
+```{r}
+subtitle <- "Area covered per class as percentage of total map area and in km^2, together with their corresponding 95% confidence intervals."
+df %>% 
+  gt() %>% 
+  cols_label(
+    classes = "Map class",
+    perc_area = md("Area covered (%)"),
+    conf_intv_perc_area = md("Area covered (%) 95% conf. interval"),
+    km2_area = md("Area covered (km^2)"),
+    conf_intv_km2 = md("Area covered (km^2) 95% conf. interval")) %>%  
+  tab_header(
+    title = "Table X",
+    subtitle = subtitle
+  ) %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title"),
+   cells_title(groups = "subtitle")   
+  )
+ ) 
+```
+

@@ -1,0 +1,64 @@
+```{r}
+library(tidyverse)  # include packages 
+library(gt)
+
+initial <- read_csv('accuracy_comparisons_initial_test_set.csv')
+extended <- read.csv('accuracy_comparisons_extended_test_set.csv')
+
+df <- rbind(initial, extended)
+```
+
+
+```{r}
+# CONFUSION MATRIX TABLE
+subtitle <- 'Accuracies and classification results into iceplant (positive class P) and other vegetation (negative clas N) on the initial by three different RF models. The models are spectral (features: r, g, b, nir), avg + entr 13x13 (features: r, g, b, nir, ndvi, avg. and entr. for previous features over a 13x13 window, month, day of year), and avg + entr 13x13 (features are the same as previous model, but training set was augmented with false positives).' 
+
+df %>%
+  gt(rowname_col = "model")%>% 
+  cols_label(
+    #model = md("Features Used"),
+    acc = md("Overall Accuracy (%)"),
+    prod_acc_P = md("Iceplant"),
+    prod_acc_N = md("Other Vegetation"),
+    user_acc_P = md("Iceplant"),
+    user_acc_N = md("Other Vegetation")) %>% 
+  tab_spanner(
+    label = "Counts per class (n)",
+    columns = c("TP","TN","FP","FN")) %>% 
+  tab_spanner(
+    label = "Producer's Accuracy (%)",
+    columns = c("prod_acc_P","prod_acc_N")) %>% 
+  tab_spanner(
+    label = "User's Accuracy (%)",
+    columns = c("user_acc_P","user_acc_N")) %>% 
+tab_row_group(
+    label = "Augmented Test Set",
+    rows = 4:6
+  ) %>%   
+   tab_row_group(
+    label = "Initial Test Set",
+    rows = 1:3
+  ) %>% 
+  tab_header(
+    title = "Table X",
+    subtitle = subtitle
+  )  %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title"),
+   cells_title(groups = "subtitle")  
+  )
+ ) 
+
+```
+
+
+```{r}
+accuracies_table(initial, 'model','aaaaa')
+```
+
