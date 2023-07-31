@@ -1,0 +1,61 @@
+---
+title: "computing_times"
+author: "CGG"
+date: "2023-07-28"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)  # include packages 
+library(gt)
+library(here)
+```
+
+```{r}
+times <- read.csv(here('data','salt13_p30_clip_processing_results_2020.csv'))
+```
+
+```{r}
+times <- times[-c(4,5),]  # remove those with no vegetation
+times
+```
+
+```{r}
+prev_times <- read.csv(here('data','modelAE5_FP_2020_filter_clip_processing_results_2020.csv'))
+```
+
+```{r}
+labels <- c('Avg. per scene', 'Total')
+pre <- c(mean(times$pre_times), sum(times$pre))
+class <- c(mean(times$class_times), sum(times$class))
+post <- c(mean(times$post_times), sum(times$post))
+pix_n <- c(mean(times$processed_pix), sum(times$processed_pix))
+
+data.frame(labels, pre,class, post, pix_n) %>% 
+  gt(rowname_col = "labels")%>% 
+  cols_label(
+    pre = md("Pre-processing (s)"),
+    class = md("Classification (s)"),
+    post = md("Post-processing (s)"),
+    pix_n = md("Pixels (n)"))%>% 
+  tab_header(
+    title = "Table X",
+    subtitle = "Processing times for the three stages of iceplant classification in individual NAIP scenes and number of pixels analyzed after masking to coastal zone."
+  ) %>% 
+ tab_style(
+  style = list(
+   cell_text(
+    align = "left"
+   )
+  ),
+  locations = list(
+   cells_title(groups = "title"),
+   cells_title(groups = "subtitle")   
+  )
+ )%>% 
+   tab_source_note(
+    source_note = md("Total processing time = ~20 minutes")
+  )
+```
