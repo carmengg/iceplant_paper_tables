@@ -11,11 +11,11 @@ library(gt)
 ```
 
 ```{r}
-classes <- c("Other vegetation","Iceplant","Low NDVI surfaces", "Water")
-perc_area <- c(30.08, 1.51, 34.56, 33.84)
-conf_intv_perc_area <- c(2.91, 0.76, 3.54, 2.5)
-km2_area <- c(3340.7, 168.3, 3838.6, 3757.8)
-conf_intv_km2 <- c(324, 85, 393, 278)
+classes <- c("Other vegetation","Iceplant","Non-vegatation")
+perc_area <- c(39.96, 1.95, 58.09)
+conf_intv_perc_area <- c(2.45, 0.37, 2.43)
+km2_area <- c(31.39, 1.53, 45.63)
+conf_intv_km2 <- c(1.92, 0.29, 1.9)
 
 df <- data.frame(classes, perc_area, conf_intv_perc_area, km2_area, conf_intv_km2)
 ```
