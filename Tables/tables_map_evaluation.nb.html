@@ -1771,32 +1771,56 @@ pre code {
 <a href="https://gt.rstudio.com/articles/intro-creating-gt-tables.html" class="uri">https://gt.rstudio.com/articles/intro-creating-gt-tables.html</a></p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpICAjIGluY2x1ZGUgcGFja2FnZXMgXG5saWJyYXJ5KGd0KVxuXG5gYGAifQ== -->
-<pre class="r"><code>library(tidyverse)  # include packages 
-library(gt)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpICAjIGluY2x1ZGUgcGFja2FnZXMgXG5gYGAifQ== -->
+<pre class="r"><code>library(tidyverse)  # include packages </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2RzIG92ZXJ3cml0dGVuIGJ5ICdkYnBseXInOlxuICBtZXRob2QgICAgICAgICBmcm9tXG4gIHByaW50LnRibF9sYXp5ICAgICBcbiAgcHJpbnQudGJsX3NxbCAgICAgIFxu4pSA4pSAIEF0dGFjaGluZyBwYWNrYWdlcyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAgdGlkeXZlcnNlIDEuMy4xIOKUgOKUgFxu4pyUIGdncGxvdDIgMy4zLjUgICAgIOKclCBwdXJyciAgIDAuMy40XG7inJQgdGliYmxlICAzLjEuNiAgICAg4pyUIGRwbHlyICAgMS4wLjhcbuKclCB0aWR5ciAgIDEuMi4wICAgICDinJQgc3RyaW5nciAxLjUuMFxu4pyUIHJlYWRyICAgMi4xLjIgICAgIOKclCBmb3JjYXRzIDAuNS4xXG7ilIDilIAgQ29uZmxpY3RzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgCB0aWR5dmVyc2VfY29uZmxpY3RzKCkg4pSA4pSAXG7inJYgZHBseXI6OmZpbHRlcigpIG1hc2tzIHN0YXRzOjpmaWx0ZXIoKVxu4pyWIGRwbHlyOjpsYWcoKSAgICBtYXNrcyBzdGF0czo6bGFnKClcbiJ9 -->
+<pre><code>Registered S3 methods overwritten by &#39;dbplyr&#39;:
+  method         from
+  print.tbl_lazy     
+  print.tbl_sql      
+── Attaching packages ────────────────────────────────────────────── tidyverse 1.3.1 ──
+✔ ggplot2 3.3.5     ✔ purrr   0.3.4
+✔ tibble  3.1.6     ✔ dplyr   1.0.8
+✔ tidyr   1.2.0     ✔ stringr 1.5.0
+✔ readr   2.1.2     ✔ forcats 0.5.1
+── Conflicts ───────────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShndClcblxuYGBgIn0= -->
+<pre class="r"><code>library(gt)
 </code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2xhc3NlcyA8LSBjKFwiT3RoZXIgdmVnZXRhdGlvblwiLFwiSWNlcGxhbnRcIixcIkxvdyBORFZJIHN1cmZhY2VzXCIsIFwiV2F0ZXJcIilcbmMxIDwtIGMoMTcwLCA1MSwgMTUsMClcbmMyIDwtIGMoMSwgMTM3LCAxLCAwKVxuYzMgPC0gYygyMCwgMTEsIDg1LCAzKVxuYzQgPC0gYyg5LCAwLCA5LCA4MilcblxuYzUgPC0gYygyMDAsIDE5OSwgMTEwLDg1KVxuXG5kZiA8LSBkYXRhLmZyYW1lKGNsYXNzZXMsIGMxLCBjMiwgYzMsIGM0LGM1KVxucHJpbnQoZGYpXG5gYGAifQ== -->
-<pre class="r"><code>classes &lt;- c(&quot;Other vegetation&quot;,&quot;Iceplant&quot;,&quot;Low NDVI surfaces&quot;, &quot;Water&quot;)
-c1 &lt;- c(170, 51, 15,0)
-c2 &lt;- c(1, 137, 1, 0)
-c3 &lt;- c(20, 11, 85, 3)
-c4 &lt;- c(9, 0, 9, 82)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2xhc3NlcyA8LSBjKFwiT3RoZXIgdmVnZXRhdGlvblwiLFwiSWNlcGxhbnRcIixcIk5vbi12ZWdldGF0aW9uXCIpXG4jIHRoZXNlIGFyZSB0aGUgY29sdW1ucyBvZiB0aGUgY29uZnVzaW9uIG1hdHJpeFxuYzEgPC0gYygxNzAsIDUxLCAxNSkgICMgcmVmIGNvbHVtbiBvdGhlciB2ZWcuXG5jMiA8LSBjKDEsIDEzNywgMSkgICAgIyByZWYgY29sdW1uIGljZXBsYW50XG5jMyA8LSBjKDIwLCAxMSwgODUpICAgIyByZWYgY29sdW1uIG5vbi12ZWdcblxuIyB0aGlzIGlzIHRoZSB0b3RhbCBvZiBwb2ludHMgc2FtcGxlZCBwZXIgY2xhc3NcbmM1IDwtIGMoMjAwLCAxOTksIDExMClcblxuZGYgPC0gZGF0YS5mcmFtZShjbGFzc2VzLCBjMSwgYzIsIGMzLGM1KVxucHJpbnQoZGYpXG5gYGAifQ== -->
+<pre class="r"><code>classes &lt;- c(&quot;Other vegetation&quot;,&quot;Iceplant&quot;,&quot;Non-vegetation&quot;)
+# these are the columns of the confusion matrix
+c1 &lt;- c(170, 51, 15)  # ref column other veg.
+c2 &lt;- c(1, 137, 1)    # ref column iceplant
+c3 &lt;- c(20, 11, 85)   # ref column non-veg
 
-c5 &lt;- c(200, 199, 110,85)
+# this is the total of points sampled per class
+c5 &lt;- c(200, 199, 110)
 
-df &lt;- data.frame(classes, c1, c2, c3, c4,c5)
+df &lt;- data.frame(classes, c1, c2, c3,c5)
 print(df)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6MywibmNvbCI6NSwic3VtbWFyeSI6eyJEZXNjcmlwdGlvbiI6WyJkZiBbMyDDlyA1XSJdfX0sInJkZiI6IlVrUllNd3BZQ2dBQUFBTUFCQUVEQUFNRkFBQUFBQVZWVkVZdE9BQUFCQUlBQUFBQkFBUUFDUUFBQUFGNEFBQURFd0FBQUFVQUFBQVFBQUFBQXdBRUFBa0FBQUFRVDNSb1pYSWdkbVZuWlhSaGRHbHZiZ0FFQUFrQUFBQUlTV05sY0d4aGJuUUFCQUFKQUFBQURrNXZiaTEyWldkbGRHRjBhVzl1QUFBQURnQUFBQU5BWlVBQUFBQUFBRUJKZ0FBQUFBQUFRQzRBQUFBQUFBQUFBQUFPQUFBQUF6L3dBQUFBQUFBQVFHRWdBQUFBQUFBLzhBQUFBQUFBQUFBQUFBNEFBQUFEUURRQUFBQUFBQUJBSmdBQUFBQUFBRUJWUUFBQUFBQUFBQUFBRGdBQUFBTkFhUUFBQUFBQUFFQm80QUFBQUFBQVFGdUFBQUFBQUFBQUFBUUNBQUFBQVFBRUFBa0FBQUFGYm1GdFpYTUFBQUFRQUFBQUJRQUVBQWtBQUFBSFkyeGhjM05sY3dBRUFBa0FBQUFDWXpFQUJBQUpBQUFBQW1NeUFBUUFDUUFBQUFKak13QUVBQWtBQUFBQ1l6VUFBQVFDQUFBQUFRQUVBQWtBQUFBSmNtOTNMbTVoYldWekFBQUFEUUFBQUFLQUFBQUFBQUFBQXdBQUJBSUFBQUFCQUFRQUNRQUFBQVZqYkdGemN3QUFBQkFBQUFBQkFBUUFDUUFBQUFwa1lYUmhMbVp5WVcxbEFBQUEvZ0FBQkFJQUFBQUJBQVFBQ1FBQUFBZHZjSFJwYjI1ekFBQUNFd0FBQUFVQUFBQVFBQUFBQVFBRUFBa0FBQUFCY2dBQUFCQUFBQUFCQUFRQUNRQUFBQTkxYm01aGJXVmtMV05vZFc1ckxURUFBQUFLQUFBQUFRQUFBQUFBQUFBTkFBQUFBUUFBQUFNQUFBQU5BQUFBQVFBQUFBVUFBQVFDQUFBQy93QUFBQkFBQUFBRkFBUUFDUUFBQUFabGJtZHBibVVBQkFBSkFBQUFCV3hoWW1Wc0FBUUFDUUFBQUE1eWIzZHVZVzFsY3k1d2NtbHVkQUFFQUFrQUFBQUtjbTkzY3k1MGIzUmhiQUFFQUFrQUFBQUtZMjlzY3k1MGIzUmhiQUFBQVA0QUFBRCsifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["classes"],"name":[1],"type":["chr"],"align":["left"]},{"label":["c1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["c2"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["c3"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["c5"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"Other vegetation","2":"170","3":"1","4":"20","5":"200"},{"1":"Iceplant","2":"51","3":"137","4":"11","5":"199"},{"1":"Non-vegetation","2":"15","3":"1","4":"85","5":"110"}],"options":{"columns":{"min":{},"max":[10],"total":[5]},"rows":{"min":[10],"max":[10],"total":[3]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIENPTkZVU0lPTiBNQVRSSVggVEFCTEVcblxuZGYgJT4lXG4gIGd0KHJvd25hbWVfY29sID0gXCJjbGFzc2VzXCIpICU+JSBcbiNndCgpICU+JSBcbiAgY29sc19sYWJlbChcbiAgICBjMSA9IG1kKFwiT3RoZXIgdmVnZXRhdGlvblwiKSxcbiAgICBjMiA9IG1kKFwiSWNlcGxhbnRcIiksXG4gICAgYzMgPSBtZChcIkxvdyBORFZJIHN1cmZhY2VzXCIpLFxuICAgIGM0ID0gbWQoXCJXYXRlclwiKSxcbiAgICBjNSA9IG1kKFwiVG90YWxcIikpICU+JSAgXG4gIHN1bW1hcnlfcm93cyhcbiAgICBjb2x1bW5zID0gYyhcImMxXCIsIFwiYzJcIiwgXCJjM1wiLCBcImM0XCIsXCJjNVwiKSxcbiAgICBmbnMgPSBsaXN0KFRvdGFsID0gfnN1bSguKSkpICU+JSBcbiAgdGFiX3Jvd19ncm91cChsYWJlbCA9IFwiTWFwIGNsYXNzXCIsXG4gICAgICAgICAgICAgICAgcm93cyA9IDE6NCkgJT4lIFxuICAgIHRhYl9zcGFubmVyKFxuICAgIGxhYmVsID0gXCJSZWZlcmVuY2UgY2xhc3NcIixcbiAgICBjb2x1bW5zID0gYyhcImMxXCIsXCJjMlwiLFwiYzNcIixcImM0XCIpKSAlPiUgXG4gIHRhYl9oZWFkZXIoXG4gICAgdGl0bGUgPSBcIlRhYmxlIFhcIixcbiAgICBzdWJ0aXRsZSA9IFwiQ29uZnVzaW9uIG1hdHJpeCBmb3IgdGhlIGFzc2Vzc21lbnQgc2FtcGxlIGNsYXNzaWZpY2F0aW9uIChncm91bmQgdmFsaWRhdGVkIHBvaW50cylcIlxuICApICU+JSBcbiB0YWJfc3R5bGUoXG4gIHN0eWxlID0gbGlzdChcbiAgIGNlbGxfdGV4dChcbiAgICBhbGlnbiA9IFwibGVmdFwiXG4gICApXG4gICksXG4gIGxvY2F0aW9ucyA9IGxpc3QoXG4gICBjZWxsc190aXRsZShncm91cHMgPSBcInRpdGxlXCIpXG4gIClcbiApIFxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIENPTkZVU0lPTiBNQVRSSVggVEFCTEVcblxuZGYgJT4lXG4gIGd0KHJvd25hbWVfY29sID0gXCJjbGFzc2VzXCIpICU+JSBcbiNndCgpICU+JSBcbiAgY29sc19sYWJlbChcbiAgICBjMSA9IG1kKFwiT3RoZXIgdmVnZXRhdGlvblwiKSxcbiAgICBjMiA9IG1kKFwiSWNlcGxhbnRcIiksXG4gICAgYzMgPSBtZChcIk5vbi12ZWdldGF0aW9uXCIpLFxuICAgIGM1ID0gbWQoXCJUb3RhbFwiKSkgJT4lICBcbiAgc3VtbWFyeV9yb3dzKFxuICAgIGNvbHVtbnMgPSBjKFwiYzFcIiwgXCJjMlwiLCBcImMzXCIsIFwiYzVcIiksXG4gICAgZm5zID0gbGlzdChUb3RhbCA9IH5zdW0oLikpKSAlPiUgXG4gIHRhYl9yb3dfZ3JvdXAobGFiZWwgPSBcIk1hcCBjbGFzc1wiLFxuICAgICAgICAgICAgICAgIHJvd3MgPSAxOjMpICU+JSBcbiAgICB0YWJfc3Bhbm5lcihcbiAgICBsYWJlbCA9IFwiUmVmZXJlbmNlIGNsYXNzXCIsXG4gICAgY29sdW1ucyA9IGMoXCJjMVwiLFwiYzJcIixcImMzXCIpKSAlPiUgXG4gIHRhYl9oZWFkZXIoXG4gICAgdGl0bGUgPSBcIlRhYmxlIFhcIixcbiAgICBzdWJ0aXRsZSA9IFwiQ29uZnVzaW9uIG1hdHJpeCBmb3IgdGhlIGFzc2Vzc21lbnQgc2FtcGxlIGNsYXNzaWZpY2F0aW9uIChncm91bmQgdmFsaWRhdGVkIHBvaW50cylcIlxuICApICU+JSBcbiB0YWJfc3R5bGUoXG4gIHN0eWxlID0gbGlzdChcbiAgIGNlbGxfdGV4dChcbiAgICBhbGlnbiA9IFwibGVmdFwiXG4gICApXG4gICksXG4gIGxvY2F0aW9ucyA9IGxpc3QoXG4gICBjZWxsc190aXRsZShncm91cHMgPSBcInRpdGxlXCIpXG4gIClcbiApIFxuYGBgIn0= -->
 <pre class="r"><code>
 # CONFUSION MATRIX TABLE
 
@@ -1806,17 +1830,16 @@ df %&gt;%
   cols_label(
     c1 = md(&quot;Other vegetation&quot;),
     c2 = md(&quot;Iceplant&quot;),
-    c3 = md(&quot;Low NDVI surfaces&quot;),
-    c4 = md(&quot;Water&quot;),
+    c3 = md(&quot;Non-vegetation&quot;),
     c5 = md(&quot;Total&quot;)) %&gt;%  
   summary_rows(
-    columns = c(&quot;c1&quot;, &quot;c2&quot;, &quot;c3&quot;, &quot;c4&quot;,&quot;c5&quot;),
+    columns = c(&quot;c1&quot;, &quot;c2&quot;, &quot;c3&quot;, &quot;c5&quot;),
     fns = list(Total = ~sum(.))) %&gt;% 
   tab_row_group(label = &quot;Map class&quot;,
-                rows = 1:4) %&gt;% 
+                rows = 1:3) %&gt;% 
     tab_spanner(
     label = &quot;Reference class&quot;,
-    columns = c(&quot;c1&quot;,&quot;c2&quot;,&quot;c3&quot;,&quot;c4&quot;)) %&gt;% 
+    columns = c(&quot;c1&quot;,&quot;c2&quot;,&quot;c3&quot;)) %&gt;% 
   tab_header(
     title = &quot;Table X&quot;,
     subtitle = &quot;Confusion matrix for the assessment sample classification (ground validated points)&quot;
@@ -1835,12 +1858,12 @@ df %&gt;%
 
 <!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNoaW55LnRhZyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
 
-<div id="sajguthctr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="bvqtzxgtgj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#sajguthctr .gt_table {
+#bvqtzxgtgj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1865,7 +1888,7 @@ df %&gt;%
   border-left-color: #D3D3D3;
 }
 
-#sajguthctr .gt_heading {
+#bvqtzxgtgj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1877,7 +1900,7 @@ df %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#sajguthctr .gt_title {
+#bvqtzxgtgj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1889,7 +1912,7 @@ df %&gt;%
   border-bottom-width: 0;
 }
 
-#sajguthctr .gt_subtitle {
+#bvqtzxgtgj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1901,13 +1924,13 @@ df %&gt;%
   border-top-width: 0;
 }
 
-#sajguthctr .gt_bottom_border {
+#bvqtzxgtgj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sajguthctr .gt_col_headings {
+#bvqtzxgtgj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1922,7 +1945,7 @@ df %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#sajguthctr .gt_col_heading {
+#bvqtzxgtgj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1942,7 +1965,7 @@ df %&gt;%
   overflow-x: hidden;
 }
 
-#sajguthctr .gt_column_spanner_outer {
+#bvqtzxgtgj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1954,15 +1977,15 @@ df %&gt;%
   padding-right: 4px;
 }
 
-#sajguthctr .gt_column_spanner_outer:first-child {
+#bvqtzxgtgj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sajguthctr .gt_column_spanner_outer:last-child {
+#bvqtzxgtgj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sajguthctr .gt_column_spanner {
+#bvqtzxgtgj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1974,7 +1997,7 @@ df %&gt;%
   width: 100%;
 }
 
-#sajguthctr .gt_group_heading {
+#bvqtzxgtgj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1999,7 +2022,7 @@ df %&gt;%
   vertical-align: middle;
 }
 
-#sajguthctr .gt_empty_group_heading {
+#bvqtzxgtgj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2014,15 +2037,15 @@ df %&gt;%
   vertical-align: middle;
 }
 
-#sajguthctr .gt_from_md > :first-child {
+#bvqtzxgtgj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sajguthctr .gt_from_md > :last-child {
+#bvqtzxgtgj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sajguthctr .gt_row {
+#bvqtzxgtgj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2041,7 +2064,7 @@ df %&gt;%
   overflow-x: hidden;
 }
 
-#sajguthctr .gt_stub {
+#bvqtzxgtgj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2054,7 +2077,7 @@ df %&gt;%
   padding-right: 5px;
 }
 
-#sajguthctr .gt_stub_row_group {
+#bvqtzxgtgj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2068,11 +2091,11 @@ df %&gt;%
   vertical-align: top;
 }
 
-#sajguthctr .gt_row_group_first td {
+#bvqtzxgtgj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#sajguthctr .gt_summary_row {
+#bvqtzxgtgj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2082,16 +2105,16 @@ df %&gt;%
   padding-right: 5px;
 }
 
-#sajguthctr .gt_first_summary_row {
+#bvqtzxgtgj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#sajguthctr .gt_first_summary_row.thick {
+#bvqtzxgtgj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#sajguthctr .gt_last_summary_row {
+#bvqtzxgtgj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2101,7 +2124,7 @@ df %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#sajguthctr .gt_grand_summary_row {
+#bvqtzxgtgj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2111,7 +2134,7 @@ df %&gt;%
   padding-right: 5px;
 }
 
-#sajguthctr .gt_first_grand_summary_row {
+#bvqtzxgtgj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2121,11 +2144,11 @@ df %&gt;%
   border-top-color: #D3D3D3;
 }
 
-#sajguthctr .gt_striped {
+#bvqtzxgtgj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sajguthctr .gt_table_body {
+#bvqtzxgtgj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2134,7 +2157,7 @@ df %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#sajguthctr .gt_footnotes {
+#bvqtzxgtgj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2148,7 +2171,7 @@ df %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#sajguthctr .gt_footnote {
+#bvqtzxgtgj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2157,7 +2180,7 @@ df %&gt;%
   padding-right: 5px;
 }
 
-#sajguthctr .gt_sourcenotes {
+#bvqtzxgtgj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2171,7 +2194,7 @@ df %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#sajguthctr .gt_sourcenote {
+#bvqtzxgtgj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2179,80 +2202,80 @@ df %&gt;%
   padding-right: 5px;
 }
 
-#sajguthctr .gt_left {
+#bvqtzxgtgj .gt_left {
   text-align: left;
 }
 
-#sajguthctr .gt_center {
+#bvqtzxgtgj .gt_center {
   text-align: center;
 }
 
-#sajguthctr .gt_right {
+#bvqtzxgtgj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sajguthctr .gt_font_normal {
+#bvqtzxgtgj .gt_font_normal {
   font-weight: normal;
 }
 
-#sajguthctr .gt_font_bold {
+#bvqtzxgtgj .gt_font_bold {
   font-weight: bold;
 }
 
-#sajguthctr .gt_font_italic {
+#bvqtzxgtgj .gt_font_italic {
   font-style: italic;
 }
 
-#sajguthctr .gt_super {
+#bvqtzxgtgj .gt_super {
   font-size: 65%;
 }
 
-#sajguthctr .gt_footnote_marks {
+#bvqtzxgtgj .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#sajguthctr .gt_asterisk {
+#bvqtzxgtgj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#sajguthctr .gt_indent_1 {
+#bvqtzxgtgj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#sajguthctr .gt_indent_2 {
+#bvqtzxgtgj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#sajguthctr .gt_indent_3 {
+#bvqtzxgtgj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#sajguthctr .gt_indent_4 {
+#bvqtzxgtgj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#sajguthctr .gt_indent_5 {
+#bvqtzxgtgj .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
   <table class="gt_table">
   <thead class="gt_header">
     <tr>
-      <td colspan="6" class="gt_heading gt_title gt_font_normal" style="text-align: left;">Table X</td>
+      <td colspan="5" class="gt_heading gt_title gt_font_normal" style="text-align: left;">Table X</td>
     </tr>
     <tr>
-      <td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Confusion matrix for the assessment sample classification (ground validated points)</td>
+      <td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Confusion matrix for the assessment sample classification (ground validated points)</td>
     </tr>
   </thead>
   <thead class="gt_col_headings">
     <tr>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col"></th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup">
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup">
         <span class="gt_column_spanner">Reference class</span>
       </th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="2" colspan="1" scope="col">Total</th>
@@ -2260,44 +2283,33 @@ df %&gt;%
     <tr>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Other vegetation</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Iceplant</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Low NDVI surfaces</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Water</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Non-vegetation</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr class="gt_group_heading_row">
-      <td colspan="6" class="gt_group_heading">Map class</td>
+      <td colspan="5" class="gt_group_heading">Map class</td>
     </tr>
     <tr class="gt_row_group_first"><th scope="row" class="gt_row gt_left gt_stub">Other vegetation</th>
 <td class="gt_row gt_right">170</td>
 <td class="gt_row gt_right">1</td>
 <td class="gt_row gt_right">20</td>
-<td class="gt_row gt_right">9</td>
 <td class="gt_row gt_right">200</td></tr>
     <tr><th scope="row" class="gt_row gt_left gt_stub">Iceplant</th>
 <td class="gt_row gt_right">51</td>
 <td class="gt_row gt_right">137</td>
 <td class="gt_row gt_right">11</td>
-<td class="gt_row gt_right">0</td>
 <td class="gt_row gt_right">199</td></tr>
-    <tr><th scope="row" class="gt_row gt_left gt_stub">Low NDVI surfaces</th>
+    <tr><th scope="row" class="gt_row gt_left gt_stub">Non-vegetation</th>
 <td class="gt_row gt_right">15</td>
 <td class="gt_row gt_right">1</td>
 <td class="gt_row gt_right">85</td>
-<td class="gt_row gt_right">9</td>
 <td class="gt_row gt_right">110</td></tr>
-    <tr><th scope="row" class="gt_row gt_left gt_stub">Water</th>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_right">3</td>
-<td class="gt_row gt_right">82</td>
-<td class="gt_row gt_right">85</td></tr>
     <tr><td class="gt_row gt_left gt_stub gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">Total</td>
 <td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">236.00</td>
 <td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">139.00</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">119.00</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">100.00</td>
-<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">594.00</td></tr>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">116.00</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row">509.00</td></tr>
   </tbody>
   
   
@@ -2314,20 +2326,20 @@ df %&gt;%
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMjIGFjY3VyYWN5IHRhYmxlXG51c2VyIDwtIGMoODUsIDY4Ljg0LCA3Ny4yNywgOTYuNDcpXG51c2VyX2NvbmYgPC0gYyg0Ljk0LCA2LjQyLCA3LjgzLCAzLjkzKVxucHJvZCA8LSBjKDgwLjgyLCA2Ni44NCwgODguMzgsIDg2LjYzKVxucHJvZF9jb25mIDwtIGMoNi44NywgMzMuMzMsIDMuNDIsIDUuNjEpXG5cbmRmMiA8LSBkYXRhLmZyYW1lKGNsYXNzZXMsIHVzZXIsIHVzZXJfY29uZiwgcHJvZCwgcHJvZF9jb25mKVxucHJpbnQoZGYyKVxuYGBgIn0= -->
-<pre class="r"><code>### accuracy table
-user &lt;- c(85, 68.84, 77.27, 96.47)
-user_conf &lt;- c(4.94, 6.42, 7.83, 3.93)
-prod &lt;- c(80.82, 66.84, 88.38, 86.63)
-prod_conf &lt;- c(6.87, 33.33, 3.42, 5.61)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMjIGFjY3VyYWN5IHRhYmxlIDogY29sdW1ucyBieSBjbGFzc1xudXNlciA8LSBjKDg1LCA2OC44NCwgNzcuMjcpXG51c2VyX2NvbmYgPC0gYyg0Ljk0LCA2LjQyLCA3LjgzKVxucHJvZCA8LSBjKDgwLjgyLCA2Ni44NCwgODguMzgpXG5wcm9kX2NvbmYgPC0gYyg2Ljg3LCAzMy4zMywgMy40MilcblxuZGYyIDwtIGRhdGEuZnJhbWUoY2xhc3NlcywgdXNlciwgdXNlcl9jb25mLCBwcm9kLCBwcm9kX2NvbmYpXG5wcmludChkZjIpXG5gYGAifQ== -->
+<pre class="r"><code>### accuracy table : columns by class
+user &lt;- c(85, 68.84, 77.27)
+user_conf &lt;- c(4.94, 6.42, 7.83)
+prod &lt;- c(80.82, 66.84, 88.38)
+prod_conf &lt;- c(6.87, 33.33, 3.42)
 
 df2 &lt;- data.frame(classes, user, user_conf, prod, prod_conf)
 print(df2)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NCwibmNvbCI6NSwic3VtbWFyeSI6eyJEZXNjcmlwdGlvbiI6WyJkZiBbNCDDlyA1XSJdfX0sInJkZiI6IlVrUllNd3BZQ2dBQUFBTUFCQUVEQUFNRkFBQUFBQVZWVkVZdE9BQUFCQUlBQUFBQkFBUUFDUUFBQUFGNEFBQURFd0FBQUFVQUFBQVFBQUFBQkFBRUFBa0FBQUFRVDNSb1pYSWdkbVZuWlhSaGRHbHZiZ0FFQUFrQUFBQUlTV05sY0d4aGJuUUFCQUFKQUFBQUVVeHZkeUJPUkZaSklITjFjbVpoWTJWekFBUUFDUUFBQUFWWFlYUmxjZ0FBQUE0QUFBQUVRRlZBQUFBQUFBQkFVVFhDajF3bzlrQlRVVWV1RkhyaFFGZ2VGSHJoUjY0QUFBQU9BQUFBQkVBVHdvOWNLUFhEUUJtdUZIcmhSNjVBSDFIcmhSNjRVa0FQY0tQWENqMXhBQUFBRGdBQUFBUkFWRFI2NFVldUZFQlF0Y0tQWENqMlFGWVlVZXVGSHJoQVZhaFI2NFVldUFBQUFBNEFBQUFFUUJ0NjRVZXVGSHRBUUtvOWNLUFhDa0FMWENqMXdvOWNRQlp3bzljS1BYRUFBQVFDQUFBQUFRQUVBQWtBQUFBRmJtRnRaWE1BQUFBUUFBQUFCUUFFQUFrQUFBQUhZMnhoYzNObGN3QUVBQWtBQUFBRWRYTmxjZ0FFQUFrQUFBQUpkWE5sY2w5amIyNW1BQVFBQ1FBQUFBUndjbTlrQUFRQUNRQUFBQWx3Y205a1gyTnZibVlBQUFRQ0FBQUFBUUFFQUFrQUFBQUpjbTkzTG01aGJXVnpBQUFBRFFBQUFBS0FBQUFBQUFBQUJBQUFCQUlBQUFBQkFBUUFDUUFBQUFWamJHRnpjd0FBQUJBQUFBQUJBQVFBQ1FBQUFBcGtZWFJoTG1aeVlXMWxBQUFBL2dBQUJBSUFBQUFCQUFRQUNRQUFBQWR2Y0hScGIyNXpBQUFDRXdBQUFBVUFBQUFRQUFBQUFRQUVBQWtBQUFBQmNnQUFBQkFBQUFBQkFBUUFDUUFBQUE5MWJtNWhiV1ZrTFdOb2RXNXJMVEVBQUFBS0FBQUFBUUFBQUFBQUFBQU5BQUFBQVFBQUFBUUFBQUFOQUFBQUFRQUFBQVVBQUFRQ0FBQUMvd0FBQUJBQUFBQUZBQVFBQ1FBQUFBWmxibWRwYm1VQUJBQUpBQUFBQld4aFltVnNBQVFBQ1FBQUFBNXliM2R1WVcxbGN5NXdjbWx1ZEFBRUFBa0FBQUFLY205M2N5NTBiM1JoYkFBRUFBa0FBQUFLWTI5c2N5NTBiM1JoYkFBQUFQNEFBQUQrIn0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6MywibmNvbCI6NSwic3VtbWFyeSI6eyJEZXNjcmlwdGlvbiI6WyJkZiBbMyDDlyA1XSJdfX0sInJkZiI6IlVrUllNd3BZQ2dBQUFBTUFCQUVEQUFNRkFBQUFBQVZWVkVZdE9BQUFCQUlBQUFBQkFBUUFDUUFBQUFGNEFBQURFd0FBQUFVQUFBQVFBQUFBQXdBRUFBa0FBQUFRVDNSb1pYSWdkbVZuWlhSaGRHbHZiZ0FFQUFrQUFBQUlTV05sY0d4aGJuUUFCQUFKQUFBQURrNXZiaTEyWldkbGRHRjBhVzl1QUFBQURnQUFBQU5BVlVBQUFBQUFBRUJSTmNLUFhDajJRRk5SUjY0VWV1RUFBQUFPQUFBQUEwQVR3bzljS1BYRFFCbXVGSHJoUjY1QUgxSHJoUjY0VWdBQUFBNEFBQUFEUUZRMGV1RkhyaFJBVUxYQ2oxd285a0JXR0ZIcmhSNjRBQUFBRGdBQUFBTkFHM3JoUjY0VWUwQkFxajF3bzljS1FBdGNLUFhDajF3QUFBUUNBQUFBQVFBRUFBa0FBQUFGYm1GdFpYTUFBQUFRQUFBQUJRQUVBQWtBQUFBSFkyeGhjM05sY3dBRUFBa0FBQUFFZFhObGNnQUVBQWtBQUFBSmRYTmxjbDlqYjI1bUFBUUFDUUFBQUFSd2NtOWtBQVFBQ1FBQUFBbHdjbTlrWDJOdmJtWUFBQVFDQUFBQUFRQUVBQWtBQUFBSmNtOTNMbTVoYldWekFBQUFEUUFBQUFLQUFBQUFBQUFBQXdBQUJBSUFBQUFCQUFRQUNRQUFBQVZqYkdGemN3QUFBQkFBQUFBQkFBUUFDUUFBQUFwa1lYUmhMbVp5WVcxbEFBQUEvZ0FBQkFJQUFBQUJBQVFBQ1FBQUFBZHZjSFJwYjI1ekFBQUNFd0FBQUFVQUFBQVFBQUFBQVFBRUFBa0FBQUFCY2dBQUFCQUFBQUFCQUFRQUNRQUFBQTkxYm01aGJXVmtMV05vZFc1ckxURUFBQUFLQUFBQUFRQUFBQUFBQUFBTkFBQUFBUUFBQUFNQUFBQU5BQUFBQVFBQUFBVUFBQVFDQUFBQy93QUFBQkFBQUFBRkFBUUFDUUFBQUFabGJtZHBibVVBQkFBSkFBQUFCV3hoWW1Wc0FBUUFDUUFBQUE1eWIzZHVZVzFsY3k1d2NtbHVkQUFFQUFrQUFBQUtjbTkzY3k1MGIzUmhiQUFFQUFrQUFBQUtZMjlzY3k1MGIzUmhiQUFBQVA0QUFBRCsifQ== -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["classes"],"name":[1],"type":["chr"],"align":["left"]},{"label":["user"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["user_conf"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["prod"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["prod_conf"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"Other vegetation","2":"85.00","3":"4.94","4":"80.82","5":"6.87"},{"1":"Iceplant","2":"68.84","3":"6.42","4":"66.84","5":"33.33"},{"1":"Low NDVI surfaces","2":"77.27","3":"7.83","4":"88.38","5":"3.42"},{"1":"Water","2":"96.47","3":"3.93","4":"86.63","5":"5.61"}],"options":{"columns":{"min":{},"max":[10],"total":[5]},"rows":{"min":[10],"max":[10],"total":[4]},"pages":{}}}
+{"columns":[{"label":["classes"],"name":[1],"type":["chr"],"align":["left"]},{"label":["user"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["user_conf"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["prod"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["prod_conf"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"Other vegetation","2":"85.00","3":"4.94","4":"80.82","5":"6.87"},{"1":"Iceplant","2":"68.84","3":"6.42","4":"66.84","5":"33.33"},{"1":"Non-vegetation","2":"77.27","3":"7.83","4":"88.38","5":"3.42"}],"options":{"columns":{"min":{},"max":[10],"total":[5]},"rows":{"min":[10],"max":[10],"total":[3]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
@@ -2366,12 +2378,12 @@ print(df2)</code></pre>
 
 <!-- rnb-html-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNoaW55LnRhZyJdLCJzaXppbmdQb2xpY3kiOltdfX0= -->
 
-<div id="dezubcugyf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="vuxsnmoplo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#dezubcugyf .gt_table {
+#vuxsnmoplo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2396,7 +2408,7 @@ print(df2)</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#dezubcugyf .gt_heading {
+#vuxsnmoplo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2408,7 +2420,7 @@ print(df2)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#dezubcugyf .gt_title {
+#vuxsnmoplo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2420,7 +2432,7 @@ print(df2)</code></pre>
   border-bottom-width: 0;
 }
 
-#dezubcugyf .gt_subtitle {
+#vuxsnmoplo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2432,13 +2444,13 @@ print(df2)</code></pre>
   border-top-width: 0;
 }
 
-#dezubcugyf .gt_bottom_border {
+#vuxsnmoplo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dezubcugyf .gt_col_headings {
+#vuxsnmoplo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2453,7 +2465,7 @@ print(df2)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#dezubcugyf .gt_col_heading {
+#vuxsnmoplo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2473,7 +2485,7 @@ print(df2)</code></pre>
   overflow-x: hidden;
 }
 
-#dezubcugyf .gt_column_spanner_outer {
+#vuxsnmoplo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2485,15 +2497,15 @@ print(df2)</code></pre>
   padding-right: 4px;
 }
 
-#dezubcugyf .gt_column_spanner_outer:first-child {
+#vuxsnmoplo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dezubcugyf .gt_column_spanner_outer:last-child {
+#vuxsnmoplo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dezubcugyf .gt_column_spanner {
+#vuxsnmoplo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2505,7 +2517,7 @@ print(df2)</code></pre>
   width: 100%;
 }
 
-#dezubcugyf .gt_group_heading {
+#vuxsnmoplo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2530,7 +2542,7 @@ print(df2)</code></pre>
   vertical-align: middle;
 }
 
-#dezubcugyf .gt_empty_group_heading {
+#vuxsnmoplo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2545,15 +2557,15 @@ print(df2)</code></pre>
   vertical-align: middle;
 }
 
-#dezubcugyf .gt_from_md > :first-child {
+#vuxsnmoplo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dezubcugyf .gt_from_md > :last-child {
+#vuxsnmoplo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dezubcugyf .gt_row {
+#vuxsnmoplo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2572,7 +2584,7 @@ print(df2)</code></pre>
   overflow-x: hidden;
 }
 
-#dezubcugyf .gt_stub {
+#vuxsnmoplo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2585,7 +2597,7 @@ print(df2)</code></pre>
   padding-right: 5px;
 }
 
-#dezubcugyf .gt_stub_row_group {
+#vuxsnmoplo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2599,11 +2611,11 @@ print(df2)</code></pre>
   vertical-align: top;
 }
 
-#dezubcugyf .gt_row_group_first td {
+#vuxsnmoplo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dezubcugyf .gt_summary_row {
+#vuxsnmoplo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2613,16 +2625,16 @@ print(df2)</code></pre>
   padding-right: 5px;
 }
 
-#dezubcugyf .gt_first_summary_row {
+#vuxsnmoplo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dezubcugyf .gt_first_summary_row.thick {
+#vuxsnmoplo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dezubcugyf .gt_last_summary_row {
+#vuxsnmoplo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2632,7 +2644,7 @@ print(df2)</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#dezubcugyf .gt_grand_summary_row {
+#vuxsnmoplo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2642,7 +2654,7 @@ print(df2)</code></pre>
   padding-right: 5px;
 }
 
-#dezubcugyf .gt_first_grand_summary_row {
+#vuxsnmoplo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2652,11 +2664,11 @@ print(df2)</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#dezubcugyf .gt_striped {
+#vuxsnmoplo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dezubcugyf .gt_table_body {
+#vuxsnmoplo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2665,7 +2677,7 @@ print(df2)</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#dezubcugyf .gt_footnotes {
+#vuxsnmoplo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2679,7 +2691,7 @@ print(df2)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#dezubcugyf .gt_footnote {
+#vuxsnmoplo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2688,7 +2700,7 @@ print(df2)</code></pre>
   padding-right: 5px;
 }
 
-#dezubcugyf .gt_sourcenotes {
+#vuxsnmoplo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2702,7 +2714,7 @@ print(df2)</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#dezubcugyf .gt_sourcenote {
+#vuxsnmoplo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2710,64 +2722,64 @@ print(df2)</code></pre>
   padding-right: 5px;
 }
 
-#dezubcugyf .gt_left {
+#vuxsnmoplo .gt_left {
   text-align: left;
 }
 
-#dezubcugyf .gt_center {
+#vuxsnmoplo .gt_center {
   text-align: center;
 }
 
-#dezubcugyf .gt_right {
+#vuxsnmoplo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dezubcugyf .gt_font_normal {
+#vuxsnmoplo .gt_font_normal {
   font-weight: normal;
 }
 
-#dezubcugyf .gt_font_bold {
+#vuxsnmoplo .gt_font_bold {
   font-weight: bold;
 }
 
-#dezubcugyf .gt_font_italic {
+#vuxsnmoplo .gt_font_italic {
   font-style: italic;
 }
 
-#dezubcugyf .gt_super {
+#vuxsnmoplo .gt_super {
   font-size: 65%;
 }
 
-#dezubcugyf .gt_footnote_marks {
+#vuxsnmoplo .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#dezubcugyf .gt_asterisk {
+#vuxsnmoplo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dezubcugyf .gt_indent_1 {
+#vuxsnmoplo .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dezubcugyf .gt_indent_2 {
+#vuxsnmoplo .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dezubcugyf .gt_indent_3 {
+#vuxsnmoplo .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dezubcugyf .gt_indent_4 {
+#vuxsnmoplo .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dezubcugyf .gt_indent_5 {
+#vuxsnmoplo .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2800,16 +2812,11 @@ print(df2)</code></pre>
 <td class="gt_row gt_right">6.42</td>
 <td class="gt_row gt_right">66.84</td>
 <td class="gt_row gt_right">33.33</td></tr>
-    <tr><td class="gt_row gt_left">Low NDVI surfaces</td>
+    <tr><td class="gt_row gt_left">Non-vegetation</td>
 <td class="gt_row gt_right">77.27</td>
 <td class="gt_row gt_right">7.83</td>
 <td class="gt_row gt_right">88.38</td>
 <td class="gt_row gt_right">3.42</td></tr>
-    <tr><td class="gt_row gt_left">Water</td>
-<td class="gt_row gt_right">96.47</td>
-<td class="gt_row gt_right">3.93</td>
-<td class="gt_row gt_right">86.63</td>
-<td class="gt_row gt_right">5.61</td></tr>
   </tbody>
   <tfoot class="gt_sourcenotes">
     <tr>
@@ -2826,26 +2833,8 @@ print(df2)</code></pre>
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGltZXMgPC0gcmVhZC5jc3YoJ21vZGVsQUU1X0ZQXzIwMjBfZmlsdGVyX2NsaXBfcHJvY2Vzc2luZ19yZXN1bHRzXzIwMjAuY3N2JylcbnRpbWVzIDwtIHRpbWVzWy1jKDQsNSksXSAgIyByZW1vdmUgdGhvc2Ugd2l0aCBubyB2ZWdldGF0aW9uXG50aW1lc1xuYGBgIn0= -->
-<pre class="r"><code>times &lt;- read.csv(&#39;modelAE5_FP_2020_filter_clip_processing_results_2020.csv&#39;)
-times &lt;- times[-c(4,5),]  # remove those with no vegetation
-times</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGFiZWxzIDwtIGMoJ0F2Zy4gcGVyIHNjZW5lJywgJ1RvdGFsJylcbnByZSA8LSBjKG1lYW4odGltZXMkcHJlX3RpbWVzKSwgc3VtKHRpbWVzJHByZSkpXG5gYGAifQ== -->
-<pre class="r"><code>labels &lt;- c(&#39;Avg. per scene&#39;, &#39;Total&#39;)
-pre &lt;- c(mean(times$pre_times), sum(times$pre))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gbWVhbih0aW1lcyRwcmVfdGltZXMpIDogb2JqZWN0ICd0aW1lcycgbm90IGZvdW5kXG4ifQ== -->
-<pre><code>Error in mean(times$pre_times) : object &#39;times&#39; not found</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKZ3AgaW5mb3JtYXRpb246CgpodHRwczovL3Rvd2FyZHNkYXRhc2NpZW5jZS5jb20vY3JlYXRlLWZsYXdsZXNzLXRhYmxlcy1mcm9tLXlvdXItZGF0YWZyYW1lLXJlYWR5LWZvci1wdWJsaWNhdGlvbi03ZTNmZTJkNjNhNTIKaHR0cHM6Ly9ndC5yc3R1ZGlvLmNvbS9hcnRpY2xlcy9pbnRyby1jcmVhdGluZy1ndC10YWJsZXMuaHRtbAoKYGBge3J9CmxpYnJhcnkodGlkeXZlcnNlKSAgIyBpbmNsdWRlIHBhY2thZ2VzIApsaWJyYXJ5KGd0KQoKYGBgCgoKYGBge3J9CmNsYXNzZXMgPC0gYygiT3RoZXIgdmVnZXRhdGlvbiIsIkljZXBsYW50IiwiTG93IE5EVkkgc3VyZmFjZXMiLCAiV2F0ZXIiKQpjMSA8LSBjKDE3MCwgNTEsIDE1LDApCmMyIDwtIGMoMSwgMTM3LCAxLCAwKQpjMyA8LSBjKDIwLCAxMSwgODUsIDMpCmM0IDwtIGMoOSwgMCwgOSwgODIpCgpjNSA8LSBjKDIwMCwgMTk5LCAxMTAsODUpCgpkZiA8LSBkYXRhLmZyYW1lKGNsYXNzZXMsIGMxLCBjMiwgYzMsIGM0LGM1KQpwcmludChkZikKYGBgCgoKYGBge3J9CgojIENPTkZVU0lPTiBNQVRSSVggVEFCTEUKCmRmICU+JQogIGd0KHJvd25hbWVfY29sID0gImNsYXNzZXMiKSAlPiUgCiNndCgpICU+JSAKICBjb2xzX2xhYmVsKAogICAgYzEgPSBtZCgiT3RoZXIgdmVnZXRhdGlvbiIpLAogICAgYzIgPSBtZCgiSWNlcGxhbnQiKSwKICAgIGMzID0gbWQoIkxvdyBORFZJIHN1cmZhY2VzIiksCiAgICBjNCA9IG1kKCJXYXRlciIpLAogICAgYzUgPSBtZCgiVG90YWwiKSkgJT4lICAKICBzdW1tYXJ5X3Jvd3MoCiAgICBjb2x1bW5zID0gYygiYzEiLCAiYzIiLCAiYzMiLCAiYzQiLCJjNSIpLAogICAgZm5zID0gbGlzdChUb3RhbCA9IH5zdW0oLikpKSAlPiUgCiAgdGFiX3Jvd19ncm91cChsYWJlbCA9ICJNYXAgY2xhc3MiLAogICAgICAgICAgICAgICAgcm93cyA9IDE6NCkgJT4lIAogICAgdGFiX3NwYW5uZXIoCiAgICBsYWJlbCA9ICJSZWZlcmVuY2UgY2xhc3MiLAogICAgY29sdW1ucyA9IGMoImMxIiwiYzIiLCJjMyIsImM0IikpICU+JSAKICB0YWJfaGVhZGVyKAogICAgdGl0bGUgPSAiVGFibGUgWCIsCiAgICBzdWJ0aXRsZSA9ICJDb25mdXNpb24gbWF0cml4IGZvciB0aGUgYXNzZXNzbWVudCBzYW1wbGUgY2xhc3NpZmljYXRpb24gKGdyb3VuZCB2YWxpZGF0ZWQgcG9pbnRzKSIKICApICU+JSAKIHRhYl9zdHlsZSgKICBzdHlsZSA9IGxpc3QoCiAgIGNlbGxfdGV4dCgKICAgIGFsaWduID0gImxlZnQiCiAgICkKICApLAogIGxvY2F0aW9ucyA9IGxpc3QoCiAgIGNlbGxzX3RpdGxlKGdyb3VwcyA9ICJ0aXRsZSIpCiAgKQogKSAKICAgICAKYGBgCgoKYGBge3J9CiMjIyBhY2N1cmFjeSB0YWJsZQp1c2VyIDwtIGMoODUsIDY4Ljg0LCA3Ny4yNywgOTYuNDcpCnVzZXJfY29uZiA8LSBjKDQuOTQsIDYuNDIsIDcuODMsIDMuOTMpCnByb2QgPC0gYyg4MC44MiwgNjYuODQsIDg4LjM4LCA4Ni42MykKcHJvZF9jb25mIDwtIGMoNi44NywgMzMuMzMsIDMuNDIsIDUuNjEpCgpkZjIgPC0gZGF0YS5mcmFtZShjbGFzc2VzLCB1c2VyLCB1c2VyX2NvbmYsIHByb2QsIHByb2RfY29uZikKcHJpbnQoZGYyKQpgYGAKCgpgYGB7cn0KZGYyICU+JSAKICBndCgpICU+JSAKICBjb2xzX2xhYmVsKAogICAgY2xhc3NlcyA9ICJNYXAgY2xhc3MiLAogICAgdXNlciA9IG1kKCJVc2VyIGFjYy4gKCUpIiksCiAgICB1c2VyX2NvbmYgPSBtZCgiVXNlciBhY2MuIDk1JSBjb25mLiBpbnRlcnZhbCAoJSkiKSwKICAgIHByb2QgPSBtZCgiUHJvZC4gYWNjICglKSIpLAogICAgcHJvZF9jb25mID0gbWQoIlByb2QgYWNjLiA5NSUgY29uZi4gaW50ZXJ2YWwgKCUpIikpICU+JSAgCiAgdGFiX2hlYWRlcigKICAgIHRpdGxlID0gIlRhYmxlIFgiLAogICAgc3VidGl0bGUgPSAiQXNzZXNzbWVudCBtZXRyaWNzIHBlciBjbGFzcyBvZiB0aGUgMjAyMCBpY2VwbGFudCBsb2NhdGlvbiBtYXAgb24gdGhlIFNhbnRhIEJhcmJhcmEgQ291bnR5IENvYXN0IgogICkgJT4lIAogdGFiX3N0eWxlKAogIHN0eWxlID0gbGlzdCgKICAgY2VsbF90ZXh0KAogICAgYWxpZ24gPSAibGVmdCIKICAgKQogICksCiAgbG9jYXRpb25zID0gbGlzdCgKICAgY2VsbHNfdGl0bGUoZ3JvdXBzID0gInRpdGxlIiksCiAgIGNlbGxzX3RpdGxlKGdyb3VwcyA9ICJzdWJ0aXRsZSIpICAgCiAgKQogKSAlPiUgCiAgIHRhYl9zb3VyY2Vfbm90ZSgKICAgIHNvdXJjZV9ub3RlID0gbWQoIk92ZXJhbCBhY2N1cmFjeSA9IDg1LjE5JSDCsSAzLjYlICg5NSUgY29uZmlkZW5jZSBpbnRlcnZhbCkiKQogICkKYGBgCgoKCmBgYHtyfQp0aW1lcyA8LSByZWFkLmNzdignbW9kZWxBRTVfRlBfMjAyMF9maWx0ZXJfY2xpcF9wcm9jZXNzaW5nX3Jlc3VsdHNfMjAyMC5jc3YnKQp0aW1lcyA8LSB0aW1lc1stYyg0LDUpLF0gICMgcmVtb3ZlIHRob3NlIHdpdGggbm8gdmVnZXRhdGlvbgp0aW1lcwpgYGAKCmBgYHtyfQpsYWJlbHMgPC0gYygnQXZnLiBwZXIgc2NlbmUnLCAnVG90YWwnKQpwcmUgPC0gYyhtZWFuKHRpbWVzJHByZV90aW1lcyksIHN1bSh0aW1lcyRwcmUpKQpjbGFzcyA8LSBjKG1lYW4odGltZXMkY2xhc3NfdGltZXMpLCBzdW0odGltZXMkY2xhc3MpKQpwb3N0IDwtIGMobWVhbih0aW1lcyRwb3N0X3RpbWVzKSwgc3VtKHRpbWVzJHBvc3QpKQpwaXhfbiA8LSBjKG1lYW4odGltZXMkcHJvY2Vzc2VkX3BpeCksIHN1bSh0aW1lcyRwcm9jZXNzZWRfcGl4KSkKCmRhdGEuZnJhbWUobGFiZWxzLCBwcmUsY2xhc3MsIHBvc3QsIHBpeF9uKSAlPiUgCiAgZ3Qocm93bmFtZV9jb2wgPSAibGFiZWxzIiklPiUgCiAgY29sc19sYWJlbCgKICAgIHByZSA9IG1kKCJQcmUtcHJvY2Vzc2luZyAocykiKSwKICAgIGNsYXNzID0gbWQoIkNsYXNzaWZpY2F0aW9uIChzKSIpLAogICAgcG9zdCA9IG1kKCJQb3N0LXByb2Nlc3NpbmcgKHMpIiksCiAgICBwaXhfbiA9IG1kKCJQaXhlbHMgKG4pIikpJT4lIAogIHRhYl9oZWFkZXIoCiAgICB0aXRsZSA9ICJUYWJsZSBYIiwKICAgIHN1YnRpdGxlID0gIlByb2Nlc3NpbmcgdGltZXMgZm9yIHRoZSB0aHJlZSBzdGFnZXMgb2YgaWNlcGxhbnQgY2xhc3NpZmljYXRpb24gaW4gaW5kaXZpZHVhbCBOQUlQIHNjZW5lcyBhbmQgbnVtYmVyIG9mIHBpeGVscyBhbmFseXplZCBhZnRlciBtYXNraW5nIHRvIGNvYXN0YWwgem9uZS4iCiAgKSAlPiUgCiB0YWJfc3R5bGUoCiAgc3R5bGUgPSBsaXN0KAogICBjZWxsX3RleHQoCiAgICBhbGlnbiA9ICJsZWZ0IgogICApCiAgKSwKICBsb2NhdGlvbnMgPSBsaXN0KAogICBjZWxsc190aXRsZShncm91cHMgPSAidGl0bGUiKSwKICAgY2VsbHNfdGl0bGUoZ3JvdXBzID0gInN1YnRpdGxlIikgICAKICApCiApJT4lIAogICB0YWJfc291cmNlX25vdGUoCiAgICBzb3VyY2Vfbm90ZSA9IG1kKCJUb3RhbCBwcm9jZXNzaW5nIHRpbWUgPSBYWFggKG1pbikiKQogICkKYGBg</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKZ3AgaW5mb3JtYXRpb246CgpodHRwczovL3Rvd2FyZHNkYXRhc2NpZW5jZS5jb20vY3JlYXRlLWZsYXdsZXNzLXRhYmxlcy1mcm9tLXlvdXItZGF0YWZyYW1lLXJlYWR5LWZvci1wdWJsaWNhdGlvbi03ZTNmZTJkNjNhNTIKaHR0cHM6Ly9ndC5yc3R1ZGlvLmNvbS9hcnRpY2xlcy9pbnRyby1jcmVhdGluZy1ndC10YWJsZXMuaHRtbAoKYGBge3J9CmxpYnJhcnkodGlkeXZlcnNlKSAgIyBpbmNsdWRlIHBhY2thZ2VzIApsaWJyYXJ5KGd0KQoKYGBgCgoKYGBge3J9CmNsYXNzZXMgPC0gYygiT3RoZXIgdmVnZXRhdGlvbiIsIkljZXBsYW50IiwiTm9uLXZlZ2V0YXRpb24iKQojIHRoZXNlIGFyZSB0aGUgY29sdW1ucyBvZiB0aGUgY29uZnVzaW9uIG1hdHJpeApjMSA8LSBjKDE3MCwgNTEsIDE1KSAgIyByZWYgY29sdW1uIG90aGVyIHZlZy4KYzIgPC0gYygxLCAxMzcsIDEpICAgICMgcmVmIGNvbHVtbiBpY2VwbGFudApjMyA8LSBjKDIwLCAxMSwgODUpICAgIyByZWYgY29sdW1uIG5vbi12ZWcKCiMgdGhpcyBpcyB0aGUgdG90YWwgb2YgcG9pbnRzIHNhbXBsZWQgcGVyIGNsYXNzCmM1IDwtIGMoMjAwLCAxOTksIDExMCkKCmRmIDwtIGRhdGEuZnJhbWUoY2xhc3NlcywgYzEsIGMyLCBjMyxjNSkKcHJpbnQoZGYpCmBgYAoKCmBgYHtyfQoKIyBDT05GVVNJT04gTUFUUklYIFRBQkxFCgpkZiAlPiUKICBndChyb3duYW1lX2NvbCA9ICJjbGFzc2VzIikgJT4lIAojZ3QoKSAlPiUgCiAgY29sc19sYWJlbCgKICAgIGMxID0gbWQoIk90aGVyIHZlZ2V0YXRpb24iKSwKICAgIGMyID0gbWQoIkljZXBsYW50IiksCiAgICBjMyA9IG1kKCJOb24tdmVnZXRhdGlvbiIpLAogICAgYzUgPSBtZCgiVG90YWwiKSkgJT4lICAKICBzdW1tYXJ5X3Jvd3MoCiAgICBjb2x1bW5zID0gYygiYzEiLCAiYzIiLCAiYzMiLCAiYzUiKSwKICAgIGZucyA9IGxpc3QoVG90YWwgPSB+c3VtKC4pKSkgJT4lIAogIHRhYl9yb3dfZ3JvdXAobGFiZWwgPSAiTWFwIGNsYXNzIiwKICAgICAgICAgICAgICAgIHJvd3MgPSAxOjMpICU+JSAKICAgIHRhYl9zcGFubmVyKAogICAgbGFiZWwgPSAiUmVmZXJlbmNlIGNsYXNzIiwKICAgIGNvbHVtbnMgPSBjKCJjMSIsImMyIiwiYzMiKSkgJT4lIAogIHRhYl9oZWFkZXIoCiAgICB0aXRsZSA9ICJUYWJsZSBYIiwKICAgIHN1YnRpdGxlID0gIkNvbmZ1c2lvbiBtYXRyaXggZm9yIHRoZSBhc3Nlc3NtZW50IHNhbXBsZSBjbGFzc2lmaWNhdGlvbiAoZ3JvdW5kIHZhbGlkYXRlZCBwb2ludHMpIgogICkgJT4lIAogdGFiX3N0eWxlKAogIHN0eWxlID0gbGlzdCgKICAgY2VsbF90ZXh0KAogICAgYWxpZ24gPSAibGVmdCIKICAgKQogICksCiAgbG9jYXRpb25zID0gbGlzdCgKICAgY2VsbHNfdGl0bGUoZ3JvdXBzID0gInRpdGxlIikKICApCiApIAogICAgIApgYGAKCgpgYGB7cn0KIyMjIGFjY3VyYWN5IHRhYmxlIDogY29sdW1ucyBieSBjbGFzcwp1c2VyIDwtIGMoODUsIDY4Ljg0LCA3Ny4yNykKdXNlcl9jb25mIDwtIGMoNC45NCwgNi40MiwgNy44MykKcHJvZCA8LSBjKDgwLjgyLCA2Ni44NCwgODguMzgpCnByb2RfY29uZiA8LSBjKDYuODcsIDMzLjMzLCAzLjQyKQoKZGYyIDwtIGRhdGEuZnJhbWUoY2xhc3NlcywgdXNlciwgdXNlcl9jb25mLCBwcm9kLCBwcm9kX2NvbmYpCnByaW50KGRmMikKYGBgCgoKYGBge3J9CmRmMiAlPiUgCiAgZ3QoKSAlPiUgCiAgY29sc19sYWJlbCgKICAgIGNsYXNzZXMgPSAiTWFwIGNsYXNzIiwKICAgIHVzZXIgPSBtZCgiVXNlciBhY2MuICglKSIpLAogICAgdXNlcl9jb25mID0gbWQoIlVzZXIgYWNjLiA5NSUgY29uZi4gaW50ZXJ2YWwgKCUpIiksCiAgICBwcm9kID0gbWQoIlByb2QuIGFjYyAoJSkiKSwKICAgIHByb2RfY29uZiA9IG1kKCJQcm9kIGFjYy4gOTUlIGNvbmYuIGludGVydmFsICglKSIpKSAlPiUgIAogIHRhYl9oZWFkZXIoCiAgICB0aXRsZSA9ICJUYWJsZSBYIiwKICAgIHN1YnRpdGxlID0gIkFzc2Vzc21lbnQgbWV0cmljcyBwZXIgY2xhc3Mgb2YgdGhlIDIwMjAgaWNlcGxhbnQgbG9jYXRpb24gbWFwIG9uIHRoZSBTYW50YSBCYXJiYXJhIENvdW50eSBDb2FzdCIKICApICU+JSAKIHRhYl9zdHlsZSgKICBzdHlsZSA9IGxpc3QoCiAgIGNlbGxfdGV4dCgKICAgIGFsaWduID0gImxlZnQiCiAgICkKICApLAogIGxvY2F0aW9ucyA9IGxpc3QoCiAgIGNlbGxzX3RpdGxlKGdyb3VwcyA9ICJ0aXRsZSIpLAogICBjZWxsc190aXRsZShncm91cHMgPSAic3VidGl0bGUiKSAgIAogICkKICkgJT4lIAogICB0YWJfc291cmNlX25vdGUoCiAgICBzb3VyY2Vfbm90ZSA9IG1kKCJPdmVyYWwgYWNjdXJhY3kgPSA4NS4xOSUgwrEgMy42JSAoOTUlIGNvbmZpZGVuY2UgaW50ZXJ2YWwpIikKICApCmBgYAoKCg==</div>
 
 
 

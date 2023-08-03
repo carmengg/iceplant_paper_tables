@@ -1,9 +1,10 @@
 ```{r}
 library(tidyverse)  # include packages 
 library(gt)
+library(here)
 
-initial <- read_csv('accuracy_comparisons_initial_test_set.csv')
-extended <- read.csv('accuracy_comparisons_extended_test_set.csv')
+initial <- read_csv(here('data','accuracy_comparisons_initial_test_set.csv'))
+extended <- read.csv(here('data','accuracy_comparisons_extended_test_set.csv'))
 
 df <- rbind(initial, extended)
 ```
@@ -58,7 +59,4 @@ tab_row_group(
 ```
 
 
-```{r}
-accuracies_table(initial, 'model','aaaaa')
-```
 

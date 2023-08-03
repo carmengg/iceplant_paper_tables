@@ -14,35 +14,41 @@ library(here)
 ```
 
 ```{r}
-times <- read.csv(here('data','salt13_p30_clip_processing_results_2020.csv'))
-```
-
-```{r}
-times <- times[-c(4,5),]  # remove those with no vegetation
+times <- read.csv(here('data','salt13_p30_clip_processing_results_BIS_2020.csv'))
 times
 ```
 
 ```{r}
-prev_times <- read.csv(here('data','modelAE5_FP_2020_filter_clip_processing_results_2020.csv'))
+#times <- times[-c(4,5),]  # remove those with no vegetation
+times
 ```
 
 ```{r}
 labels <- c('Avg. per scene', 'Total')
-pre <- c(mean(times$pre_times), sum(times$pre))
-class <- c(mean(times$class_times), sum(times$class))
-post <- c(mean(times$post_times), sum(times$post))
-pix_n <- c(mean(times$processed_pix), sum(times$processed_pix))
+access <- c(mean(times$access_times), sum(times$access_times))
+pre <- c(mean(times$pre_times), sum(times$pre_times))
+features <- c(mean(times[-c(4,5),]$fts_times), sum(times$fts_times))
+class <- c(mean(times[-c(4,5),]$class_times), sum(times$class_times))
+post <- c(mean(times[-c(4,5),]$post_times), sum(times$post))
+pix_n <- c(mean(times[-c(4,5),]$processed_pix), sum(times$processed_pix))
 
-data.frame(labels, pre,class, post, pix_n) %>% 
+data.frame(labels, access, pre, features, class, post, pix_n) %>% 
   gt(rowname_col = "labels")%>% 
+   fmt_number(
+    columns = everything(),
+    decimals = 1,
+    use_seps = TRUE
+  ) %>% 
   cols_label(
+    access = md("Access (s)"),
     pre = md("Pre-processing (s)"),
+    features = md("Feature creation (s)"),
     class = md("Classification (s)"),
     post = md("Post-processing (s)"),
     pix_n = md("Pixels (n)"))%>% 
   tab_header(
     title = "Table X",
-    subtitle = "Processing times for the three stages of iceplant classification in individual NAIP scenes and number of pixels analyzed after masking to coastal zone."
+    subtitle = "Processing times for iceplant classification stages of individual NAIP scenes and number of pixels analyzed after masking to coastal zone."
   ) %>% 
  tab_style(
   style = list(
@@ -56,6 +62,6 @@ data.frame(labels, pre,class, post, pix_n) %>%
   )
  )%>% 
    tab_source_note(
-    source_note = md("Total processing time = ~20 minutes")
+    source_note = md("Total processing time = 117.84 minutes")
   )
 ```
