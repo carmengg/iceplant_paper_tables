@@ -18,12 +18,12 @@ library(gt)
 ```{r}
 classes <- c("Other vegetation","Iceplant","Non-vegetation")
 # these are the columns of the confusion matrix
-c1 <- c(170, 51, 15)  # ref column other veg.
-c2 <- c(1, 137, 1)    # ref column iceplant
-c3 <- c(20, 11, 85)   # ref column non-veg
+c1 <- c(247, 26, 48)  # ref column other veg.
+c2 <- c(2, 262, 0)    # ref column iceplant
+c3 <- c(40, 8, 356)   # ref column non-veg
 
 # this is the total of points sampled per class
-c5 <- c(200, 199, 110)
+c5 <- c(289, 296, 404)
 
 df <- data.frame(classes, c1, c2, c3,c5)
 print(df)
@@ -36,7 +36,6 @@ print(df)
 
 df %>%
   gt(rowname_col = "classes") %>% 
-#gt() %>% 
   cols_label(
     c1 = md("Other vegetation"),
     c2 = md("Iceplant"),
@@ -44,7 +43,8 @@ df %>%
     c5 = md("Total")) %>%  
   summary_rows(
     columns = c("c1", "c2", "c3", "c5"),
-    fns = list(Total = ~sum(.))) %>% 
+    fns = list(Total = ~sum(.)),
+    decimals=0) %>% 
   tab_row_group(label = "Map class",
                 rows = 1:3) %>% 
     tab_spanner(
@@ -70,10 +70,10 @@ df %>%
 
 ```{r}
 ### accuracy table : columns by class
-user <- c(85, 68.84, 77.27)
-user_conf <- c(4.94, 6.42, 7.83)
-prod <- c(80.82, 66.84, 88.38)
-prod_conf <- c(6.87, 33.33, 3.42)
+user <- c(85.47, 88.51, 88.11)
+user_conf <- c(4.05, 3.62, 3.14)
+prod <- c(81.78, 86.42, 90.79)
+prod_conf <- c(3.92, 16.15, 2.39)
 
 df2 <- data.frame(classes, user, user_conf, prod, prod_conf)
 print(df2)
@@ -105,7 +105,7 @@ df2 %>%
   )
  ) %>% 
    tab_source_note(
-    source_note = md("Overal accuracy = 85.19% ± 3.6% (95% confidence interval)")
+    source_note = md("Overal accuracy = 87.11% ± 2.44% (95% confidence interval)")
   )
 ```
 
