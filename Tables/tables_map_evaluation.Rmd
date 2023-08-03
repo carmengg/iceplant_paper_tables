@@ -70,12 +70,13 @@ df %>%
 
 ```{r}
 ### accuracy table : columns by class
-user <- c(85.47, 88.51, 88.11)
-user_conf <- c(4.05, 3.62, 3.14)
 prod <- c(81.78, 86.42, 90.79)
 prod_conf <- c(3.92, 16.15, 2.39)
+user <- c(85.47, 88.51, 88.11)
+user_conf <- c(4.05, 3.62, 3.14)
 
-df2 <- data.frame(classes, user, user_conf, prod, prod_conf)
+
+df2 <- data.frame(classes,prod, prod_conf, user, user_conf)
 print(df2)
 ```
 
@@ -85,10 +86,10 @@ df2 %>%
   gt() %>% 
   cols_label(
     classes = "Map class",
-    user = md("User acc. (%)"),
-    user_conf = md("User acc. 95% conf. interval (%)"),
     prod = md("Prod. acc (%)"),
-    prod_conf = md("Prod acc. 95% conf. interval (%)")) %>%  
+    prod_conf = md("Prod acc. 95% conf. interval (%)"),
+    user = md("User acc. (%)"),
+    user_conf = md("User acc. 95% conf. interval (%)")) %>%  
   tab_header(
     title = "Table X",
     subtitle = "Assessment metrics per class of the 2020 iceplant location map on the Santa Barbara County Coast"
