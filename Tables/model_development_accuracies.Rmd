@@ -11,8 +11,9 @@ https://gt.rstudio.com/articles/intro-creating-gt-tables.html
 ```{r}
 library(tidyverse)  # include packages 
 library(gt)
+library(here)
 
-accs <- read_csv('accuracies_feature_experiments.csv')
+accs <- read_csv(here('data','accuracies_feature_experiments.csv'))
 accs
 ```
 
@@ -58,18 +59,30 @@ df %>%
 ```
 
 
+
 ```{r}
 table_order <- c("Features","acc","prod_acc_P","prod_acc_N","user_acc_P","user_acc_N","TP","TN","FP","FN")
 
 spectral_df <- accs[1:4,1:9]
-spectral_df$Features <- c('spectral','spectral, date', 'spectral, NDVI', 'spectral, date, NDVI')
+spectral_df$Features <- c('spectral','spectral, month, day of year', 'spectral, NDVI', 'spectral,  month, day of year, NDVI')
 spectral_df <- spectral_df[,table_order]
 spectral_df
 ```
 
 ```{r}
+spec_month <- data.frame('spectral, month', 82.8, 81.21, 84.05, 80, 85.06, 268, 353, 67, 62 )
+spec_day <- data.frame('spectral, day of year', 86, 86.67, 85.48, 82.42, 89.08, 286, 359, 61, 44)
+names(spec_day) <- table_order
+names(spec_month) <- table_order
+
+spectral_df <- rbind(spectral_df, spec_day, spec_month) %>% arrange(factor(Features, levels=c('spectral', 'spectral, month', 'spectral, day of year', 'spectral, month, day of year', 'spectral, NDVI', 'spectral,  month, day of year, NDVI')))
+```
+
+
+
+```{r}
 Features_label = 'Features'
-subtitle =  "Accuracies and classification results into iceplant (positive class) an other vegetation (negative class) from models with different combinations of spectral, date and NDVI features."
+subtitle =  "Accuracies and classification results into iceplant (positive class) an other vegetation (negative class) from models with different combinations of spectral, month, day of year, and NDVI features."
 
 accuracies_table(spectral_df, Features_label, subtitle)
 ```
