@@ -1,0 +1,44 @@
+---
+title: "best_accuracies"
+author: "CGG"
+date: "2023-08-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)  # include packages 
+library(dplyr)
+library(gt)
+library(here)
+
+accs <- read_csv(here('data','accuracies_feature_experiments.csv'))
+```
+
+
+```{r}
+OA <- accs[5:56,c('acc','features')]
+OA <- OA %>% arrange(desc(acc)) 
+
+ice_PA <- accs[5:56,c('prod_acc_P','features')]
+ice_PA <- ice_PA %>% arrange(desc(prod_acc_P)) 
+
+veg_UA <- accs[5:56,c('user_acc_N','features')]
+veg_UA <- veg_UA %>% arrange(desc(user_acc_N))
+
+veg_PA <- accs[5:56,c('prod_acc_N','features')]
+veg_PA <- veg_PA %>% arrange(desc(prod_acc_N))
+
+ice_UA <- accs[5:56,c('user_acc_P','features')]
+ice_UA <- ice_UA %>% arrange(desc(user_acc_P))
+```
+
+```{r}
+first_n <- 20
+bind_cols(OA, ice_PA, veg_UA, ice_UA, veg_PA ) %>% slice(1:first_n) %>% mutate(n=c(1:first_n))
+```
+
+
