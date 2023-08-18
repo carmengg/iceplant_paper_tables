@@ -12,6 +12,7 @@ library(ggplot2)
 library(dplyr)
 library(stringr)
 library(here)
+library(colorspace)
 
 library(patchwork)
 ```
@@ -98,8 +99,7 @@ accuracy_graph <- function(which_acc, y_label, title){
 
 ```{r}
 # ------------------------------------------
-#title =  "Fig. X Overall Accuracies for Texture Features Across Window Sizes"
-title = "(e)"
+title = "(e) Overall Accuracies for Texture Features Across Window Sizes"
 subtitle =  ""
 y_label = "Overall accuracy (%)"
 
@@ -109,9 +109,8 @@ OA <-   all %>%
               color = type,
               shape = type)) +
     geom_line( color = "grey") +
-    geom_point(size=4) +
+    geom_point(size=4) + 
   labs( y = y_label, 
-        #x = "Length of window side (pixels)",
         x = "Window side length (pixels)",
         title = title,
         subtitle = subtitle)+
@@ -130,62 +129,106 @@ OA <-   all %>%
 OA
 ```
 
+
+```{r}
+point_colors <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442")
+
+
+all %>% 
+# --------------------------------
+  ggplot( aes(x = window_size, 
+              y = acc,
+              group=type)) +
+# --------------------------------
+  geom_line( color = "grey") +
+# --------------------------------
+  geom_point(size = 4,
+             aes(shape = type,  # color, shape and fill depend on type
+                 fill = type,
+                 color= type),
+             alpha=0.8)  + # transparency value for all points
+# --------------------------------
+  # shape
+  scale_shape_manual(
+    name = NULL,
+    values = c(21,22,23,24)
+  ) +
+# --------------------------------  
+  # inner color
+   scale_fill_manual(
+    name = NULL,
+    values = point_colors
+  )+
+# --------------------------------  
+  # borders
+  scale_color_manual(
+    name = NULL,
+    values = darken(point_colors, 0.3)
+  ) + 
+# --------------------------------
+  labs( y = y_label, 
+        x = "Window side length (pixels)",
+        title = title,
+        subtitle = subtitle)+
+# --------------------------------  
+  scale_x_continuous(
+    breaks=seq(5,25,4))+
+# --------------------------------
+  # guides(
+  #   color="none")+
+  guides(
+    color = guide_legend(
+      nrow=1,
+      override.aes = list(
+        shape = c(21,22,23,24)
+      )
+    )
+  ) +
+# --------------------------------  
+  theme_light() +
+# --------------------------------  
+  theme(legend.position = "bottom",
+        legend.text = element_text(size = 15))
+
+  
+```
+
+
 ```{r}
 # ------------------------------------------
-title =  "Fig. X Iceplant Producer's Accuracies for Texture Features Across Window Sizes"
+title =  "(a) Iceplant Producer's Accuracies for Texture Features Across Window Sizes"
 subtitle =  ""
 y_label = "Producer's accuracy (%)"
 ice_PA <- accuracy_graph(all$prod_acc_P, y_label, title)
 
 # ------------------------------------------
-title =  "Fig. X Other Vegetation Producer's Accuracies for Texture Features Across Window Sizes"
+title =  "(b) Other Vegetation Producer's Accuracies for Texture Features Across Window Sizes"
 subtitle =  ""
 y_label = "Producer's accuracy (%)"
 veg_PA <- accuracy_graph(all$prod_acc_N, y_label, title)
 
 # ------------------------------------------
-title =  "Fig. X Iceplant User's Accuracies for Texture Features Across Window Sizes"
+title =  "(c) Iceplant User's Accuracies for Texture Features Across Window Sizes"
 subtitle =  ""
 y_label = "User's accuracy (%)"
 ice_UA <- accuracy_graph(all$user_acc_P, y_label, title)
 
 # ------------------------------------------
-title =  "Fig. X Other Vegetation User's Accuracies for Texture Features Across Window Sizes"
+title =  "(d) Other Vegetation User's Accuracies for Texture Features Across Window Sizes"
 subtitle =  ""
 y_label = "User's accuracy (%)"
 veg_UA <- accuracy_graph(all$user_acc_N, y_label, title)
-
-
-(ice_PA + veg_PA)/ (ice_UA + veg_UA)/OA
 ```
-
-
 
 ```{r}
-# ------------------------------------------
-title =  "(a)"
-subtitle =  ""
-y_label = "Iceplant producer's accuracy (%)"
-ice_PA <- accuracy_graph(all$prod_acc_P, y_label, title)
 
-# ------------------------------------------
-title =  "(b)"
-subtitle =  ""
-y_label = "Other vegetation producer's accuracy (%)"
-veg_PA <- accuracy_graph(all$prod_acc_N, y_label, title)
+setEPS()
+postscript("gfg.eps", width=7, height = 4)
+(ice_PA + veg_PA)/ (ice_UA + veg_UA)/OA
+dev.off()
+```
 
-# ------------------------------------------
-title =  "(c)"
-subtitle =  ""
-y_label = "Iceplant user's accuracy (%)"
-ice_UA <- accuracy_graph(all$user_acc_P, y_label, title)
-
-# ------------------------------------------
-title =  "(d)"
-subtitle =  ""
-y_label = "Other vegetation user's accuracy (%)"
-veg_UA <- accuracy_graph(all$user_acc_N, y_label, title)
-
-
+```{r}
 (ice_PA + veg_PA)/ (ice_UA + veg_UA)/OA
 ```
+
