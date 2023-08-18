@@ -11,12 +11,13 @@ library(gt)
 library(ggplot2)
 library(dplyr)
 library(stringr)
+library(here)
 
 library(patchwork)
 ```
 
 ```{r}
-accs <- read_csv('accuracies_feature_experiments.csv')
+accs <- read_csv(here('data','accuracies_feature_experiments.csv'))
 accs
 ```
 
